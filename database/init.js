@@ -1,0 +1,1 @@
+const { queryInterface } = require('sequelize');

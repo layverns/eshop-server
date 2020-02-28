@@ -1,0 +1,62 @@
+{
+  "name": "eshop-server",
+  "version": "1.0.0",
+  "description": "",
+  "private": true,
+  "egg": {
+    "declarations": true
+  },
+  "dependencies": {
+    "bcrypt": "^4.0.0",
+    "egg": "^2.15.1",
+    "egg-scripts": "^2.11.0",
+    "egg-sequelize": "^5.2.1",
+    "jsonwebtoken": "^8.5.1",
+    "lodash": "^4.17.15",
+    "mysql2": "^2.1.0",
+    "sequelize-cli": "^5.5.1",
+    "validator": "^12.2.0"
+  },
+  "devDependencies": {
+    "autod": "^3.0.1",
+    "autod-egg": "^1.1.0",
+    "egg-bin": "^4.11.0",
+    "egg-ci": "^1.11.0",
+    "egg-mock": "^3.21.0",
+    "eslint": "^5.13.0",
+    "eslint-config-egg": "^7.1.0"
+  },
+  "engines": {
+    "node": ">=10.0.0"
+  },
+  "scripts": {
+    "start": "egg-scripts start --daemon --title=egg-server-eshop-server",
+    "stop": "egg-scripts stop --title=egg-server-eshop-server",
+    "dev": "egg-bin dev",
+    "init": "npm run create_db && npm run migrate && npm run seed",
+    "init_dev": "npm run create_db_dev && npm run migrate_dev && npm run seed_dev",
+    "create_migration": "npx sequelize-cli model:generate --name demo --attributes title:string",
+    "create_seed": " npx sequelize-cli seed:generate --name demo",
+    "create_db": "export NODE_ENV=production && npx sequelize-cli db:create --charset 'utf8mb4'",
+    "create_db_dev": "export NODE_ENV=development && npx sequelize-cli db:create --charset 'utf8mb4'",
+    "migrate_dev": "export NODE_ENV=development && npx sequelize-cli db:migrate",
+    "migrate": "export NODE_ENV=production && npx sequelize-cli db:migrate",
+    "seed_dev": "export NODE_ENV=development && npx sequelize-cli db:seed:all",
+    "seed": "export NODE_ENV=production && npx sequelize-cli db:seed:all",
+    "test": "npm run lint -- --fix && npm run test-local",
+    "test-local": "egg-bin test",
+    "cov": "egg-bin cov",
+    "lint": "eslint .",
+    "ci": "npm run lint && npm run cov",
+    "autod": "autod"
+  },
+  "ci": {
+    "version": "10"
+  },
+  "repository": {
+    "type": "git",
+    "url": ""
+  },
+  "author": "",
+  "license": "MIT"
+}
