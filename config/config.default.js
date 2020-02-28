@@ -1,7 +1,7 @@
 /* eslint valid-jsdoc: "off" */
 
 'use strict';
-
+require('dotenv').config();
 /**
  * @param {Egg.EggAppInfo} appInfo app info
  */
@@ -18,11 +18,11 @@ module.exports = appInfo => {
 
   config.sequelize = {
     dialect: 'mysql',
-    host: '127.0.0.1',
-    port: 3306,
+    host: process.env.DB_HOST || '127.0.0.1',
+    port: process.env.DB_PORT || '3306',
     database: 'eshop_dev',
-    username: 'root',
-    password: '12345678',
+    username: process.env.DB_USERNAME || 'root',
+    password: process.env.DB_PASSWORD || '12345678',
   };
 
   config.security = {
@@ -31,7 +31,16 @@ module.exports = appInfo => {
     },
   };
 
-  config.jwtSecret = 'hhhhaaa';
+  config.jwtSecret = process.env.JWT_SECRET || 'happynewyear';
+
+  config.cors = {
+    origin: '*',
+    allowMethods: 'GET,HEAD,PUT,POST,DELETE,PATCH',
+  };
+
+  config.jwt = {
+    secret: process.env.JWT_SECRET || 'happynewyear',
+  };
 
   return {
     ...config,

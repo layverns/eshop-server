@@ -8,12 +8,23 @@ const jwt = require('jsonwebtoken');
 const { ERRORS, ServerError } = require('../../libs/errors');
 
 class UserService extends Service {
+  async get(email) {
+    const { ctx } = this;
+
+    const user = await ctx.model.User.findOne({ raw: true, where: { email } });
+    if (_.isEmpty(user)) {
+      throw new ServerError('该用户尚未注册!', ERRORS.VALIDATION.CODE);
+    }
+
+    return this.generateJWTforUser(user);
+  }
+
   async login(email, password) {
     const { ctx } = this;
 
     const user = await ctx.model.User.findOne({ raw: true, where: { email } });
     if (_.isEmpty(user)) {
-      throw new ServerError('改用户尚未注册!', ERRORS.VALIDATION.CODE);
+      throw new ServerError('该用户尚未注册!', ERRORS.VALIDATION.CODE);
     }
 
     const isValid = await bcrypt.compare(password, user.password);

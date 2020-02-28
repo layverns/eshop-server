@@ -5,5 +5,7 @@
  */
 module.exports = app => {
   const { router, controller } = app;
-  router.post('/api/login', controller.web.user.login);
+
+  router.get('/api/user', app.jwt, controller.web.user.get);
+  router.post('/api/users/login', controller.web.user.login);
 };
