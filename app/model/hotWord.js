@@ -3,24 +3,19 @@ module.exports = app => {
   const { STRING, INTEGER } = app.Sequelize;
 
   return app.model.define(
-    'user',
+    'hot_words',
     {
       id: {
         type: INTEGER,
         primaryKey: true,
         autoIncrement: true,
       },
-      username: {
+      keyword: {
         type: STRING,
       },
-      email: {
-        type: STRING,
-      },
-      password: {
-        type: STRING,
-      },
-      image: {
-        type: STRING,
+      searchCount: {
+        type: INTEGER,
+        field: 'search_count',
       },
     },
     {

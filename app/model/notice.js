@@ -1,26 +1,23 @@
 'use strict';
 module.exports = app => {
-  const { STRING, INTEGER } = app.Sequelize;
+  const { STRING, INTEGER, TEXT } = app.Sequelize;
 
   return app.model.define(
-    'user',
+    'notice',
     {
       id: {
         type: INTEGER,
         primaryKey: true,
         autoIncrement: true,
       },
-      username: {
+      title: {
         type: STRING,
       },
-      email: {
+      subtitle: {
         type: STRING,
       },
-      password: {
-        type: STRING,
-      },
-      image: {
-        type: STRING,
+      content: {
+        type: TEXT,
       },
     },
     {

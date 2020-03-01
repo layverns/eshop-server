@@ -3,20 +3,17 @@ module.exports = app => {
   const { STRING, INTEGER } = app.Sequelize;
 
   return app.model.define(
-    'user',
+    'thirdCategory',
     {
       id: {
         type: INTEGER,
         primaryKey: true,
         autoIncrement: true,
       },
-      username: {
-        type: STRING,
+      subcategory: {
+        type: INTEGER,
       },
-      email: {
-        type: STRING,
-      },
-      password: {
+      title: {
         type: STRING,
       },
       image: {
