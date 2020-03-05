@@ -3,7 +3,7 @@ module.exports = app => {
   const { STRING, INTEGER } = app.Sequelize;
 
   return app.model.define(
-    'hot_words',
+    'HotWord',
     {
       id: {
         type: INTEGER,

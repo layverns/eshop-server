@@ -3,24 +3,18 @@ module.exports = app => {
   const { STRING, INTEGER } = app.Sequelize;
 
   return app.model.define(
-    'User',
+    'ProductTag',
     {
       id: {
         type: INTEGER,
         primaryKey: true,
         autoIncrement: true,
       },
-      username: {
-        type: STRING,
+      product: {
+        type: INTEGER,
       },
-      email: {
-        type: STRING,
-      },
-      password: {
-        type: STRING,
-      },
-      image: {
-        type: STRING,
+      tag: {
+        type: INTEGER,
       },
     },
     {

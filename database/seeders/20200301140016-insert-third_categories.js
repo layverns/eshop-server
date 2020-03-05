@@ -55,9 +55,9 @@ function getThirdcategories() {
   );
 }
 
-getThirdcategories();
-
 module.exports = {
+  getThirdcategories,
+
   up: (queryInterface, Sequelize) => {
     return queryInterface.bulkInsert('third_categories', getThirdcategories());
   },

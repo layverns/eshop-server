@@ -15,4 +15,8 @@ module.exports = app => {
   router.get('/api/search/hot_words', controller.web.search.getHotWords);
 
   router.get('/api/categories', controller.web.category.getList);
+
+  router.get('/api/carousels', controller.web.carousel.getList);
+
+  router.get('/api/products/:id', controller.web.product.getDetail);
 };

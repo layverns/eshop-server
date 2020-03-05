@@ -2,8 +2,8 @@
 module.exports = app => {
   const { STRING, INTEGER } = app.Sequelize;
 
-  const Category = app.model.define(
-    'Category',
+  const Tag = app.model.define(
+    'Tag',
     {
       id: {
         type: INTEGER,
@@ -13,15 +13,18 @@ module.exports = app => {
       title: {
         type: STRING,
       },
+      color: {
+        type: STRING,
+      },
     },
     {
       timestamps: true,
     }
   );
 
-  Category.associate = function() {
-    app.model.Category.hasMany(app.model.Subcategory, { foreignKey: 'category', sourceKey: 'id' });
+  Tag.associate = function() {
+    app.model.Tag.belongsToMany(app.model.Product, { through: app.model.ProductTag, foreignKey: 'tag' });
   };
 
-  return Category;
+  return Tag;
 };

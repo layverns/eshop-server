@@ -2,21 +2,21 @@
 module.exports = app => {
   const { STRING, INTEGER } = app.Sequelize;
 
-  return app.model.define(
-    'User',
+  const ProductSpec = app.model.define(
+    'ProductSpec',
     {
       id: {
         type: INTEGER,
         primaryKey: true,
         autoIncrement: true,
       },
-      username: {
+      product: {
+        type: INTEGER,
+      },
+      spec: {
         type: STRING,
       },
-      email: {
-        type: STRING,
-      },
-      password: {
+      title: {
         type: STRING,
       },
       image: {
@@ -27,4 +27,10 @@ module.exports = app => {
       timestamps: true,
     }
   );
+
+  ProductSpec.associate = function() {
+    app.model.ProductSpec.belongsTo(app.model.Product, { foreignKey: 'product', targetKey: 'id' });
+  };
+
+  return ProductSpec;
 };

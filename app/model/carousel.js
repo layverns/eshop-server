@@ -2,15 +2,15 @@
 module.exports = app => {
   const { STRING, INTEGER } = app.Sequelize;
 
-  const Category = app.model.define(
-    'Category',
+  return app.model.define(
+    'Carousel',
     {
       id: {
         type: INTEGER,
         primaryKey: true,
         autoIncrement: true,
       },
-      title: {
+      image: {
         type: STRING,
       },
     },
@@ -18,10 +18,4 @@ module.exports = app => {
       timestamps: true,
     }
   );
-
-  Category.associate = function() {
-    app.model.Category.hasMany(app.model.Subcategory, { foreignKey: 'category', sourceKey: 'id' });
-  };
-
-  return Category;
 };

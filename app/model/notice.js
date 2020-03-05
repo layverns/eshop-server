@@ -3,7 +3,7 @@ module.exports = app => {
   const { STRING, INTEGER, TEXT } = app.Sequelize;
 
   return app.model.define(
-    'notice',
+    'Notice',
     {
       id: {
         type: INTEGER,

@@ -2,8 +2,8 @@
 module.exports = app => {
   const { STRING, INTEGER } = app.Sequelize;
 
-  return app.model.define(
-    'thirdCategory',
+  const ThirdCategory = app.model.define(
+    'ThirdCategory',
     {
       id: {
         type: INTEGER,
@@ -24,4 +24,11 @@ module.exports = app => {
       timestamps: true,
     }
   );
+
+  ThirdCategory.associate = function() {
+    app.model.ThirdCategory.belongsTo(app.model.Subcategory, { foreignKey: 'subcategory', targetKey: 'id' });
+    app.model.ThirdCategory.hasMany(app.model.Product, { foreignKey: 'third_category', sourceKey: 'id' });
+  };
+
+  return ThirdCategory;
 };

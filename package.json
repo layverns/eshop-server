@@ -39,7 +39,7 @@
     "init": "npm run create_db && npm run migrate && npm run seed",
     "init_dev": "npm run create_db_dev && npm run migrate_dev && npm run seed_dev",
     "create_migration": "npx sequelize-cli model:generate --name demo --attributes title:string",
-    "create_seed": " npx sequelize-cli seed:generate --name demo",
+    "create_seed": " npx sequelize-cli seed:generate --name insert-demo",
     "create_db": "export NODE_ENV=production && npx sequelize-cli db:create --charset 'utf8mb4'",
     "create_db_dev": "export NODE_ENV=development && npx sequelize-cli db:create --charset 'utf8mb4'",
     "migrate_dev": "export NODE_ENV=development && npx sequelize-cli db:migrate",
