@@ -87,7 +87,7 @@ const product_specs = [
   },
   {
     product: 4,
-    spec: '口径',
+    spec: '规格',
     title: '750毫升*6',
     order: 0,
     index: 1,
@@ -98,7 +98,7 @@ const product_specs = [
     spec: '颜色',
     title: '磨砂黑',
     order: 0,
-    index: 1,
+    index: 0,
     image: 'https://yanxuan-item.nosdn.127.net/e25e512afd9c039285c8d9fb0628affd.png',
   },
   {
@@ -106,7 +106,7 @@ const product_specs = [
     spec: '颜色',
     title: '金色',
     order: 0,
-    index: 2,
+    index: 1,
     image: 'https://yanxuan-item.nosdn.127.net/7df3a2d656b1843abe7a67155ae3a178.png',
   },
   {
@@ -114,7 +114,7 @@ const product_specs = [
     spec: '颜色',
     title: '灰紫色',
     order: 0,
-    index: 3,
+    index: 0,
     image: 'https://yanxuan-item.nosdn.127.net/000145de66f32a33aa4874585af32cd1.png',
   },
   {
@@ -140,13 +140,6 @@ const product_specs = [
   },
   {
     product: 7,
-    spec: '型号',
-    title: 'IPhoneXs Max',
-    order: 0,
-    index: 3,
-  },
-  {
-    product: 7,
     spec: '颜色',
     title: '深空黑',
     order: 1,
@@ -163,19 +156,17 @@ const product_specs = [
   },
   {
     product: 7,
-    spec: '颜色',
-    title: '湖水蓝',
-    order: 1,
-    index: 2,
-    image: 'https://yanxuan-item.nosdn.127.net/5f564602d04a51b65ccb340be5594a6a.png',
+    spec: '内存',
+    title: '64GB',
+    order: 2,
+    index: 0,
   },
   {
     product: 7,
-    spec: '颜色',
-    title: '朱雀红',
-    order: 1,
-    index: 3,
-    image: 'https://yanxuan-item.nosdn.127.net/68d4d237ab49a693fcb74069f2106ade.png',
+    spec: '内存',
+    title: '128GB',
+    order: 2,
+    index: 1,
   },
   {
     product: 8,

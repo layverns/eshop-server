@@ -95,21 +95,21 @@ class ProductService extends Service {
       };
     }
 
-    // tags = await ctx.model.Tag.findAll({
-    //   raw: true,
-    //   include: [
-    //     {
-    //       model: ctx.model.Product,
-    //       where: {
-    //         id: id,
-    //       },
-    //       attributes: [],
-    //     },
-    //   ],
-    //   attributes: ['id', 'title', 'color'],
-    // });
+    tags = await ctx.model.Tag.findAll({
+      raw: true,
+      include: [
+        {
+          model: ctx.model.Product,
+          where: {
+            id: id,
+          },
+          attributes: [],
+        },
+      ],
+      attributes: ['id', 'title', 'color'],
+    });
 
-    // tags = tags && tags.map(t => _.pick(t, ['id', 'title', 'color']));
+    tags = tags && tags.map(t => _.pick(t, ['id', 'title', 'color']));
 
     productSpecs = await ctx.model.ProductSpec.findAll({
       raw: true,

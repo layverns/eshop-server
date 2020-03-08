@@ -2,6 +2,7 @@
 const _ = require('lodash');
 
 const carousels = [
+  'https://yanxuan.nosdn.127.net/39be8c23bdcf0651d1af56eb4a594730.png',
   'https://yanxuan.nosdn.127.net/17be7a7a4a85d8a999b341c8a7543df6.jpg',
   'https://yanxuan.nosdn.127.net/4299c036cb369202649fee9ed975939a.jpg',
   'https://yanxuan.nosdn.127.net/619dae0493f6cd078a0d7180edc5acef.jpg',

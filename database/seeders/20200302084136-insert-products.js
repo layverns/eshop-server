@@ -28,10 +28,10 @@ const products = [
     subtitle: '物理不粘无涂层，耐磨耐用',
     images: [
       'https://yanxuan-item.nosdn.127.net/ca33501c2d6e03bed2dc8e00cf571fdc.png',
-      'https://yanxuan-item.nosdn.127.net/ca33501c2d6e03bed2dc8e00cf571fdc.png',
-      'https://yanxuan-item.nosdn.127.net/ca33501c2d6e03bed2dc8e00cf571fdc.png',
-      'https://yanxuan-item.nosdn.127.net/ca33501c2d6e03bed2dc8e00cf571fdc.png',
-      'https://yanxuan-item.nosdn.127.net/ca33501c2d6e03bed2dc8e00cf571fdc.png',
+      'https://yanxuan-item.nosdn.127.net/fb6b455a6875a5fe1d7eaacdecf6ebc6.jpg',
+      'https://yanxuan-item.nosdn.127.net/29ae8a1c93d03a31b4ce2385bef98692.jpg',
+      'https://yanxuan-item.nosdn.127.net/6aa6f6817365607a9d96f446a6d22683.jpg',
+      'https://yanxuan-item.nosdn.127.net/c89c4c86c6cb31805bd537d8c772a231.png',
     ],
   },
   {
@@ -42,15 +42,15 @@ const products = [
       'https://yanxuan-item.nosdn.127.net/f8f61b2ced6ed6a72d07a8e74ed7d5ac.jpg',
       'https://yanxuan-item.nosdn.127.net/bb852bf08cabd2fc52135b61f257c3f0.jpg',
       'https://yanxuan-item.nosdn.127.net/ca33501c2d6e03bed2dc8e00cf571fdc.png',
-      'https://yanxuan-item.nosdn.127.net/ca33501c2d6e03bed2dc8e00cf571fdc.png',
+      'https://yanxuan-item.nosdn.127.net/8b32b56df035904598cfb6ffc4cea76c.png',
     ],
   },
   {
     title: '剪出精致感，金致圆柄复古剪刀',
     subtitle: '轻薄设计，简约大方',
     images: [
-      'https://yanxuan-item.nosdn.127.net/e52eb92a519a268c4b6c54c4ad2bb95d.png',
-      'https://yanxuan-item.nosdn.127.net/e52eb92a519a268c4b6c54c4ad2bb95d.png',
+      'https://yanxuan-item.nosdn.127.net/ade0ec4f0d2d56c723becb8002a69f75.png',
+      'https://yanxuan-item.nosdn.127.net/4c6a9c8a579b00e5e9c7b002d15a33a2.jpg',
       'https://yanxuan-item.nosdn.127.net/f832555ef368be44b530dfc4e70e96b8.jpg',
       'https://yanxuan-item.nosdn.127.net/e1c46f4d3ad7c0c4a511214a2756e2fc.jpg',
       'https://yanxuan-item.nosdn.127.net/e52eb92a519a268c4b6c54c4ad2bb95d.png',

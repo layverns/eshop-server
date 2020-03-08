@@ -3,9 +3,9 @@
 const product_infos = [
   {
     product: 1,
-    prices: JSON.stringify([[179]]),
-    old_prices: JSON.stringify([[219]]),
-    scores: JSON.stringify([[17]]),
+    prices: JSON.stringify([179]),
+    old_prices: JSON.stringify([219]),
+    scores: JSON.stringify([17]),
   },
   {
     product: 2,
@@ -27,47 +27,71 @@ const product_infos = [
   },
   {
     product: 3,
-    prices: JSON.stringify([[259, 319]]),
-    old_prices: JSON.stringify([[300, 429]]),
-    scores: JSON.stringify([[25, 31]]),
+    prices: JSON.stringify([259, 319]),
+    old_prices: JSON.stringify([300, 429]),
+    scores: JSON.stringify([25, 31]),
   },
   {
     product: 4,
-    prices: JSON.stringify([[59, 289]]),
-    old_prices: JSON.stringify([[69, 399]]),
-    scores: JSON.stringify([[5, 28]]),
+    prices: JSON.stringify([59, 289]),
+    old_prices: JSON.stringify([69, 399]),
+    scores: JSON.stringify([5, 28]),
   },
   {
     product: 5,
-    prices: JSON.stringify([[9.9, 19.9]]),
-    old_prices: JSON.stringify([[19.9, 29.9]]),
-    scores: JSON.stringify([[0, 0]]),
+    prices: JSON.stringify([9.9, 19.9]),
+    old_prices: JSON.stringify([19.9, 29.9]),
+    scores: JSON.stringify([0, 0]),
   },
   {
     product: 6,
-    prices: JSON.stringify([[699]]),
-    old_prices: JSON.stringify([[0]]),
-    scores: JSON.stringify([[0]]),
+    prices: JSON.stringify([699]),
+    old_prices: JSON.stringify([0]),
+    scores: JSON.stringify([0]),
   },
   {
     product: 7,
     prices: JSON.stringify([
-      [39, 49, 59, 69],
-      [29.4, 49, 29.4, 29.4],
-      [29.4, 49, 29.4, 29.4],
-      [59, 59, 49, 49],
+      [
+        [29, 39],
+        [49, 59],
+      ],
+      [
+        [69, 79],
+        [89, 99],
+      ],
+      [
+        [109, 119],
+        [129, 139],
+      ],
     ]),
     old_prices: JSON.stringify([
-      [0, 0, 0, 0],
-      [49, 0, 49, 49],
-      [49, 0, 49, 49],
-      [0, 0, 0, 0],
+      [
+        [40, 50],
+        [60, 70],
+      ],
+      [
+        [80, 90],
+        [100, 110],
+      ],
+      [
+        [120, 130],
+        [140, 150],
+      ],
     ]),
     scores: JSON.stringify([
-      [3, 4, 5, 6],
-      [2, 4, 2, 2],
-      [2, 4, 2, 2],
-      [5, 5, 4, 4],
+      [
+        [1, 2],
+        [3, 4],
+      ],
+      [
+        [5, 6],
+        [7, 8],
+      ],
+      [
+        [9, 10],
+        [11, 12],
+      ],
     ]),
   },
   {

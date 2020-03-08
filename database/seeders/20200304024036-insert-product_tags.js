@@ -15,11 +15,11 @@ const product_tag = [
   },
   {
     product: 4,
-    tag: 1,
+    tag: 5,
   },
   {
     product: 4,
-    tag: 3,
+    tag: 4,
   },
   {
     product: 5,
@@ -31,11 +31,15 @@ const product_tag = [
   },
   {
     product: 6,
-    tag: 3,
+    tag: 5,
   },
   {
     product: 7,
-    tag: 1,
+    tag: 2,
+  },
+  {
+    product: 7,
+    tag: 4,
   },
   {
     product: 8,
