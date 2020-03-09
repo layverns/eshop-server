@@ -11,6 +11,9 @@ module.exports = {
       image: {
         type: Sequelize.STRING,
       },
+      category: {
+        type: Sequelize.INTEGER,
+      },
       created_at: {
         allowNull: false,
         type: 'TIMESTAMP',

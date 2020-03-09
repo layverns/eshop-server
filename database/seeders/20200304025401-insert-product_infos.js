@@ -1,14 +1,16 @@
 'use strict';
+const _ = require('lodash');
+const { getProducts } = require('./20200302084136-insert-products');
 
 const product_infos = [
   {
-    product: 1,
+    subtitle: '6种烘焙风格，一盒尽享',
     prices: JSON.stringify([179]),
     old_prices: JSON.stringify([219]),
     scores: JSON.stringify([17]),
   },
   {
-    product: 2,
+    subtitle: '安心101%棉 全棉的软糯与柔情',
     prices: JSON.stringify([
       [119, 129, 139, 149],
       [219, 229, 239, 249],
@@ -26,31 +28,31 @@ const product_infos = [
     ]),
   },
   {
-    product: 3,
+    subtitle: '物理不粘无涂层，耐磨耐用',
     prices: JSON.stringify([259, 319]),
     old_prices: JSON.stringify([300, 429]),
     scores: JSON.stringify([25, 31]),
   },
   {
-    product: 4,
+    subtitle: '新世界经典混酿代表',
     prices: JSON.stringify([59, 289]),
     old_prices: JSON.stringify([69, 399]),
     scores: JSON.stringify([5, 28]),
   },
   {
-    product: 5,
+    subtitle: '轻薄设计，简约大方',
     prices: JSON.stringify([9.9, 19.9]),
     old_prices: JSON.stringify([19.9, 29.9]),
     scores: JSON.stringify([0, 0]),
   },
   {
-    product: 6,
+    subtitle: '高速破壁，彻底释放营养',
     prices: JSON.stringify([699]),
     old_prices: JSON.stringify([0]),
     scores: JSON.stringify([0]),
   },
   {
-    product: 7,
+    subtitle: '日本进口液态硅胶，iPhone手机的舒适感。',
     prices: JSON.stringify([
       [
         [29, 39],
@@ -95,7 +97,7 @@ const product_infos = [
     ]),
   },
   {
-    product: 8,
+    subtitle: '网易云音乐定制 胡桃木/桃花芯二色可选 入门级合板琴 23寸',
     prices: JSON.stringify([[359, 359]]),
     old_prices: JSON.stringify([[0, 0]]),
     scores: JSON.stringify([[35, 35]]),
@@ -103,7 +105,21 @@ const product_infos = [
 ];
 
 function getProductInfos() {
-  return product_infos;
+  return _.flatten(
+    getProducts().map((p, index) =>
+      product_infos
+        .filter(ps => p.subtitle == ps.subtitle)
+        .map(ps =>
+          _.omit(
+            {
+              product: index + 1,
+              ...ps,
+            },
+            ['subtitle']
+          )
+        )
+    )
+  );
 }
 
 module.exports = {

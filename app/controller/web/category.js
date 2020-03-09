@@ -12,6 +12,21 @@ class CategoryController extends Controller {
       categories,
     };
   }
+
+  async getAllCarousels() {
+    const { ctx } = this;
+    const { id } = ctx.params;
+
+    if (Number.isNaN(id)) {
+      throw new ServerError('参数错误!', ERRORS.VALIDATION.CODE);
+    }
+
+    const categoryCarousels = await ctx.service.web.category.getAllCarousels();
+
+    ctx.body = {
+      categoryCarousels,
+    };
+  }
 }
 
 module.exports = CategoryController;

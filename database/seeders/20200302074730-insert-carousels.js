@@ -1,7 +1,8 @@
 'use strict';
 const _ = require('lodash');
+const { getCategories } = require('./20200301133501-insert-categories');
 
-const carousels = [
+const homeCarousels = [
   'https://yanxuan.nosdn.127.net/39be8c23bdcf0651d1af56eb4a594730.png',
   'https://yanxuan.nosdn.127.net/17be7a7a4a85d8a999b341c8a7543df6.jpg',
   'https://yanxuan.nosdn.127.net/4299c036cb369202649fee9ed975939a.jpg',
@@ -12,10 +13,17 @@ const carousels = [
   'https://yanxuan.nosdn.127.net/990abb066db11b89f462450ab8c71052.jpg',
 ];
 
+const categoryCarousels = [
+  'https://yanxuan.nosdn.127.net/b0c39464f7f579416719ad827788cc43.jpg',
+  'https://yanxuan.nosdn.127.net/7ab8a622a3dd132a250a1fea1ea2d819.jpg',
+  'https://yanxuan.nosdn.127.net/ae136365d7ac7262135ca53e51293348.jpg',
+  'https://yanxuan.nosdn.127.net/84b233d46511af850b4fe99e01c48ed8.jpg',
+];
+
 function getCarousels() {
-  return carousels.map(c => ({
-    image: c,
-  }));
+  let homCarousels = homeCarousels.map(c => ({ image: c, category: 0 }));
+  let catCarousels = _.flatten(getCategories().map((cat, index) => categoryCarousels.map(c => ({ image: c, category: index + 1 }))));
+  return _.concat(homCarousels, catCarousels);
 }
 
 module.exports = {

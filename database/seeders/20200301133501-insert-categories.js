@@ -9,6 +9,8 @@ function getCategories() {
 }
 
 module.exports = {
+  getCategories,
+
   up: (queryInterface, Sequelize) => {
     return queryInterface.bulkInsert('categories', getCategories());
   },

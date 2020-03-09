@@ -1,4 +1,6 @@
 'use strict';
+const _ = require('lodash');
+const { getThirdcategories } = require('./20200301140016-insert-third_categories');
 
 const products = [
   {
@@ -92,14 +94,22 @@ const products = [
 ];
 
 function getProducts() {
-  return products.map(p => ({
-    ...p,
-    images: JSON.stringify(p.images),
-    third_category: 1,
-  }));
+  let count = 1;
+  return _.flatten(
+    getThirdcategories().map((th, index) =>
+      products.map(p => ({
+        ...p,
+        title: p.title + count++,
+        images: JSON.stringify(p.images),
+        third_category: index + 1,
+      }))
+    )
+  );
 }
 
 module.exports = {
+  getProducts,
+
   up: (queryInterface, Sequelize) => {
     return queryInterface.bulkInsert('products', getProducts());
   },

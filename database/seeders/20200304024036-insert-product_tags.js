@@ -1,54 +1,70 @@
 'use strict';
+const _ = require('lodash');
+const { getProducts } = require('./20200302084136-insert-products');
 
 const product_tag = [
   {
-    product: 1,
+    subtitle: '6种烘焙风格，一盒尽享',
     tag: 2,
   },
   {
-    product: 2,
+    subtitle: '安心101%棉 全棉的软糯与柔情',
     tag: 1,
   },
   {
-    product: 3,
+    subtitle: '物理不粘无涂层，耐磨耐用',
     tag: 3,
   },
   {
-    product: 4,
+    subtitle: '新世界经典混酿代表',
     tag: 5,
   },
   {
-    product: 4,
+    subtitle: '新世界经典混酿代表',
     tag: 4,
   },
   {
-    product: 5,
+    subtitle: '轻薄设计，简约大方',
     tag: 1,
   },
   {
-    product: 6,
+    subtitle: '高速破壁，彻底释放营养',
     tag: 1,
   },
   {
-    product: 6,
+    subtitle: '高速破壁，彻底释放营养',
     tag: 5,
   },
   {
-    product: 7,
+    subtitle: '日本进口液态硅胶，iPhone手机的舒适感。',
     tag: 2,
   },
   {
-    product: 7,
+    subtitle: '日本进口液态硅胶，iPhone手机的舒适感。',
     tag: 4,
   },
   {
-    product: 8,
+    subtitle: '网易云音乐定制 胡桃木/桃花芯二色可选 入门级合板琴 23寸',
     tag: 3,
   },
 ];
 
 function getProductTag() {
-  return product_tag;
+  return _.flatten(
+    getProducts().map((p, index) =>
+      product_tag
+        .filter(pt => p.subtitle == pt.subtitle)
+        .map(pt =>
+          _.omit(
+            {
+              product: index + 1,
+              ...pt,
+            },
+            ['subtitle']
+          )
+        )
+    )
+  );
 }
 
 module.exports = {

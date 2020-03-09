@@ -3,10 +3,10 @@
 const Controller = require('egg').Controller;
 
 class CarouselController extends Controller {
-  async getList() {
+  async getHomeList() {
     const { ctx } = this;
 
-    const carousels = await ctx.service.web.carousel.getList();
+    const carousels = await ctx.service.web.carousel.getHomeList();
 
     ctx.body = {
       carousels,

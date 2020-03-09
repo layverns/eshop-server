@@ -4,36 +4,23 @@ const Service = require('egg').Service;
 const _ = require('lodash');
 const { getFirstNum } = require('../../libs/utils');
 
-class NewProductService extends Service {
-  async getList({ offset, limit }) {
+class WelfareProductService extends Service {
+  async getList({ limit, offset }) {
     const { ctx } = this;
 
-    let newProducts = await ctx.model.Product.findAll({
+    let welfareProducts = await ctx.model.Product.findAll({
       raw: true,
       order: [['created_at', 'DESC']],
       offset,
       limit,
     });
 
-    if (_.isEmpty(newProducts)) {
+    if (_.isEmpty(welfareProducts)) {
       return [];
     }
 
-    newProducts = await Promise.all(
-      newProducts.map(async p => {
-        let tags = await ctx.model.Tag.findAll({
-          raw: true,
-          include: [
-            {
-              model: ctx.model.Product,
-              where: {
-                id: p.id,
-              },
-              attributes: [],
-            },
-          ],
-          attributes: ['id', 'title', 'color'],
-        });
+    welfareProducts = await Promise.all(
+      welfareProducts.map(async p => {
         let info = await ctx.model.ProductInfo.findOne({
           raw: true,
           where: {
@@ -42,18 +29,18 @@ class NewProductService extends Service {
         });
         let price = getFirstNum(JSON.parse(info.prices));
         let old_price = getFirstNum(JSON.parse(info.old_prices));
+
         return {
           ...p,
           price,
           old_price,
           images: JSON.parse(p.images),
-          tags: tags.map(t => _.pick(t, ['id', 'title', 'color'])),
         };
       })
     );
 
-    return newProducts;
+    return welfareProducts;
   }
 }
 
-module.exports = NewProductService;
+module.exports = WelfareProductService;

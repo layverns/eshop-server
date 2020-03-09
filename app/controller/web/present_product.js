@@ -3,7 +3,7 @@
 const Controller = require('egg').Controller;
 const { ERRORS, ServerError } = require('../../libs/errors');
 
-class TimeProductController extends Controller {
+class PresentController extends Controller {
   async getList() {
     const { ctx } = this;
     const offset = Number.parseInt(ctx.request.query.offset || 0);
@@ -13,12 +13,13 @@ class TimeProductController extends Controller {
       throw new ServerError('参数错误!', ERRORS.VALIDATION.CODE);
     }
 
-    const timeProducts = await ctx.service.web.timeProduct.getList({ offset, limit });
+    const presentProducts = await ctx.service.web.presentProduct.getList({ offset, limit });
 
     ctx.body = {
-      timeProducts,
+      presentProducts,
     };
   }
 }
 
-module.exports = TimeProductController;
+module.exports = PresentController;
+1;
