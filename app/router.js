@@ -35,4 +35,6 @@ module.exports = app => {
   router.get('/api/welfare_products', controller.web.welfareProduct.getList);
 
   router.get('/api/present_products', controller.web.presentProduct.getList);
+
+  router.get('/api/lists/:category_id', controller.web.list.getDetail);
 };
