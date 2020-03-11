@@ -15,11 +15,13 @@ module.exports = app => {
   router.get('/api/search/hot_words', controller.web.search.getHotWords);
 
   router.get('/api/categories', controller.web.category.getList);
-  router.get('/api/categories/carousels', controller.web.category.getAllCarousels);
+  router.get('/api/categories/:id', controller.web.category.getDetail);
 
   router.get('/api/home/carousels', controller.web.carousel.getHomeList);
+  router.get('/api/carousels', controller.web.carousel.getList);
 
   router.get('/api/products/:id', controller.web.product.getDetail);
+  router.get('/api/products', controller.web.product.getList);
 
   router.post('/api/carts', app.jwt, controller.web.cart.create);
   router.get('/api/carts', app.jwt, controller.web.cart.getList);
@@ -36,5 +38,5 @@ module.exports = app => {
 
   router.get('/api/present_products', controller.web.presentProduct.getList);
 
-  router.get('/api/lists/:category_id', controller.web.list.getDetail);
+  router.get('/api/lists/:id', controller.web.list.getDetail);
 };

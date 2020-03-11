@@ -11,6 +11,19 @@ class CarouselService extends Service {
 
     return carousels;
   }
+
+  async getList({ categoryId }) {
+    const { ctx } = this;
+
+    let carousels = [];
+    if (_.isEmpty(categoryId)) {
+      carousels = await ctx.model.Carousel.findAll({ raw: true, attributes: ['id', 'image'] });
+    } else {
+      carousels = await ctx.model.Carousel.findAll({ raw: true, where: { category: categoryId }, attributes: ['id', 'image'] });
+    }
+
+    return carousels;
+  }
 }
 
 module.exports = CarouselService;

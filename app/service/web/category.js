@@ -25,6 +25,31 @@ class CategoryService extends Service {
     return cats;
   }
 
+  async getDetail(id) {
+    const { ctx } = this;
+    const { Sequelize } = ctx.app;
+
+    let category = await ctx.model.Category.findOne({ raw: true, where: { id }, attributes: ['id', 'title'] });
+
+    let subcategories = await ctx.model.Subcategory.findAll({
+      raw: true,
+      where: { category: id },
+      attributes: ['id', 'category', 'title'],
+    });
+
+    const thirdCategories = await ctx.model.ThirdCategory.findAll({
+      raw: true,
+      where: { subcategory: { [Sequelize.Op.in]: subcategories.map(sc => sc.id) } },
+      attributes: ['id', 'subcategory', 'title', 'image'],
+    });
+
+    return {
+      category,
+      subcategories,
+      thirdCategories,
+    };
+  }
+
   async getAllCarousels() {
     const { ctx } = this;
     const { Sequelize } = ctx.app;

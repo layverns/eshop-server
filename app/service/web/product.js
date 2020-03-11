@@ -2,8 +2,8 @@
 
 const Service = require('egg').Service;
 const _ = require('lodash');
-const validator = require('validator');
 
+const { getFirstNum } = require('../../libs/utils');
 const { ERRORS, ServerError } = require('../../libs/errors');
 
 class ProductService extends Service {
@@ -140,6 +140,69 @@ class ProductService extends Service {
       productSpecs,
       productInfo,
     };
+  }
+
+  async getList({ thirdCategoryId, limit, offset }) {
+    const { ctx } = this;
+
+    let options = {
+      raw: true,
+      attributes: ['id', 'title', 'subtitle', 'images', 'third_category'],
+      order: [['created_at', 'desc']],
+      limit,
+      offset,
+    };
+
+    if (thirdCategoryId) {
+      options.include = [
+        {
+          model: ctx.model.ThirdCategory,
+          where: {
+            id: thirdCategoryId,
+          },
+          attributes: [],
+        },
+      ];
+    }
+
+    let products = await ctx.model.Product.findAll(options);
+
+    products = await Promise.all(
+      products.map(async p => {
+        let tags = await ctx.model.Tag.findAll({
+          raw: true,
+          include: [
+            {
+              model: ctx.model.Product,
+              where: {
+                id: p.id,
+              },
+              attributes: [],
+            },
+          ],
+          attributes: ['id', 'title', 'color'],
+        });
+
+        let info = await ctx.model.ProductInfo.findOne({
+          raw: true,
+          where: {
+            product: p.id,
+          },
+        });
+        let price = getFirstNum(JSON.parse(info.prices));
+        let old_price = getFirstNum(JSON.parse(info.old_prices));
+
+        return {
+          ...p,
+          price,
+          old_price,
+          images: JSON.parse(p.images),
+          tags: tags.map(t => _.pick(t, ['id', 'title', 'color'])),
+        };
+      })
+    );
+
+    return products;
   }
 }
 

@@ -20,6 +20,20 @@ class ProductController extends Controller {
       product,
     };
   }
+
+  async getList() {
+    const { ctx } = this;
+    const offset = Number.parseInt(ctx.query.offset || 0);
+    const limit = Number.parseInt(ctx.query.limit || 100);
+
+    const thirdCategoryId = ctx.query.thirdCategoryId;
+
+    const products = await ctx.service.web.product.getList({ thirdCategoryId, offset, limit });
+
+    ctx.body = {
+      products,
+    };
+  }
 }
 
 module.exports = ProductController;

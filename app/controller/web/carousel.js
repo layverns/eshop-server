@@ -12,6 +12,17 @@ class CarouselController extends Controller {
       carousels,
     };
   }
+
+  async getList() {
+    const { ctx } = this;
+    const { categoryId } = ctx.query;
+
+    const carousels = await ctx.service.web.carousel.getList({ categoryId });
+
+    ctx.body = {
+      carousels,
+    };
+  }
 }
 
 module.exports = CarouselController;
