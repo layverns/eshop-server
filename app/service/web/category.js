@@ -37,11 +37,16 @@ class CategoryService extends Service {
       attributes: ['id', 'category', 'title'],
     });
 
-    const thirdCategories = await ctx.model.ThirdCategory.findAll({
+    let thirdCategories = await ctx.model.ThirdCategory.findAll({
       raw: true,
       where: { subcategory: { [Sequelize.Op.in]: subcategories.map(sc => sc.id) } },
       attributes: ['id', 'subcategory', 'title', 'image'],
     });
+
+    thirdCategories = thirdCategories.map(tc => ({
+      ...tc,
+      category: category.id,
+    }));
 
     return {
       category,

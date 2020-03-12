@@ -8,6 +8,7 @@
   },
   "dependencies": {
     "bcrypt": "^4.0.0",
+    "camelcase-keys": "^6.2.1",
     "dotenv": "^8.2.0",
     "egg": "^2.15.1",
     "egg-cors": "^2.2.3",

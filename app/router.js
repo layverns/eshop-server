@@ -22,6 +22,7 @@ module.exports = app => {
 
   router.get('/api/products/:id', controller.web.product.getDetail);
   router.get('/api/products', controller.web.product.getList);
+  router.get('/api/product/search', controller.web.product.search);
 
   router.post('/api/carts', app.jwt, controller.web.cart.create);
   router.get('/api/carts', app.jwt, controller.web.cart.getList);

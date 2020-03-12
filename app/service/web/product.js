@@ -2,11 +2,76 @@
 
 const Service = require('egg').Service;
 const _ = require('lodash');
+const camelcaseKeys = require('camelcase-keys');
 
 const { getFirstNum } = require('../../libs/utils');
 const { ERRORS, ServerError } = require('../../libs/errors');
 
 class ProductService extends Service {
+  async search({ keyword, offset, limit, sort, order, thirdCategoryId }) {
+    const { ctx } = this;
+    const { Sequelize } = ctx.app;
+
+    let options = {
+      raw: true,
+      order: [['created_at', 'desc']],
+      limit,
+      offset,
+      order: [[sort, order]],
+    };
+
+    if (!_.isEmpty(keyword)) {
+      options.where = {
+        title: { [Sequelize.Op.like]: `%${keyword}%` },
+      };
+    }
+
+    if (!_.isEmpty(thirdCategoryId)) {
+      options.where = {
+        third_category: thirdCategoryId,
+      };
+    }
+
+    let products = await ctx.model.Product.findAll(options);
+
+    products = await Promise.all(
+      products.map(async p => {
+        let tags = await ctx.model.Tag.findAll({
+          raw: true,
+          include: [
+            {
+              model: ctx.model.Product,
+              where: {
+                id: p.id,
+              },
+              attributes: [],
+            },
+          ],
+          attributes: ['id', 'title', 'color'],
+        });
+
+        let info = await ctx.model.ProductInfo.findOne({
+          raw: true,
+          where: {
+            product: p.id,
+          },
+        });
+        let price = getFirstNum(JSON.parse(info.prices));
+        let old_price = getFirstNum(JSON.parse(info.old_prices));
+
+        return camelcaseKeys({
+          ...p,
+          price,
+          old_price,
+          images: JSON.parse(p.images),
+          tags: tags.map(t => _.pick(t, ['id', 'title', 'color'])),
+        });
+      })
+    );
+
+    return products;
+  }
+
   async getDetail(id) {
     const { ctx } = this;
 
@@ -147,7 +212,6 @@ class ProductService extends Service {
 
     let options = {
       raw: true,
-      attributes: ['id', 'title', 'subtitle', 'images', 'third_category'],
       order: [['created_at', 'desc']],
       limit,
       offset,
@@ -192,13 +256,13 @@ class ProductService extends Service {
         let price = getFirstNum(JSON.parse(info.prices));
         let old_price = getFirstNum(JSON.parse(info.old_prices));
 
-        return {
+        return camelcaseKeys({
           ...p,
           price,
           old_price,
           images: JSON.parse(p.images),
           tags: tags.map(t => _.pick(t, ['id', 'title', 'color'])),
-        };
+        });
       })
     );
 
