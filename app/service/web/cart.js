@@ -7,17 +7,24 @@ class CartService extends Service {
   async upsert(fields) {
     const { ctx } = this;
 
-    let cart = await ctx.model.Cart.findOne({ where: { product: fields.product, specs: JSON.stringify(fields.specs) }, raw: true });
+    let cart = await ctx.model.Cart.findOne({ where: { product: fields.id, specs: JSON.stringify(fields.specs) }, raw: true });
     if (_.isEmpty(cart)) {
       cart = await ctx.model.Cart.create({ ...fields, specs: JSON.stringify(fields.specs) }, { raw: true });
       cart = cart.get({ plain: true });
     } else {
       let quantity = cart.quantity + fields.quantity;
+      quantity = quantity > 99 ? 99 : quantity;
       await ctx.model.Cart.update({ quantity }, { where: { id: cart.id } });
       cart.quantity = quantity;
     }
 
     return cart;
+  }
+
+  async delete(fields) {
+    const { ctx } = this;
+
+    await ctx.model.Cart.destroy({ where: { product: fields.id, specs: JSON.stringify(fields.specs) }, raw: true });
   }
 
   async getList(user) {

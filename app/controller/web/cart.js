@@ -25,24 +25,40 @@ class CartController extends Controller {
 
   async create() {
     const { ctx } = this;
-    let { product, specs, quantity } = ctx.request.body.product;
+    let { id, specs, quantity } = ctx.request.body.product;
 
-    console.log(' product: ', product);
-    console.log(' specs: ', specs[0]);
     let user = _.get(ctx, 'state.user.sub.id', null);
 
     if (!validator.isNumeric(user + '')) {
       throw new ServerError('登陆信息失效!', ERRORS.AUTHENTICATION.CODE);
     }
-    if (!validator.isNumeric(product + '') || !validator.isNumeric(quantity + '') || _.isEmpty(specs)) {
+    if (!validator.isNumeric(id + '') || !validator.isNumeric(quantity + '') || _.isEmpty(specs)) {
       throw new ServerError('参数错误!', ERRORS.VALIDATION.CODE);
     }
 
-    const cart = await ctx.service.web.cart.upsert({ product, specs, quantity, user });
+    const cart = await ctx.service.web.cart.upsert({ id, specs, quantity, user });
 
     ctx.body = {
       cart,
     };
+  }
+
+  async delete() {
+    const { ctx } = this;
+    let { id, specs } = ctx.request.body.product;
+
+    let user = _.get(ctx, 'state.user.sub.id', null);
+
+    if (!validator.isNumeric(user + '')) {
+      throw new ServerError('登陆信息失效!', ERRORS.AUTHENTICATION.CODE);
+    }
+    if (!validator.isNumeric(id + '') || _.isEmpty(specs)) {
+      throw new ServerError('参数错误!', ERRORS.VALIDATION.CODE);
+    }
+
+    await ctx.service.web.cart.delete({ id, specs, user });
+
+    ctx.body = {};
   }
 }
 
