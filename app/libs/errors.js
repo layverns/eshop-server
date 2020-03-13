@@ -5,6 +5,9 @@ const ERRORS = {
   AUTHENTICATION: {
     CODE: 401,
   },
+  NOT_FOUND: {
+    CODE: 404,
+  },
 };
 
 class ServerError extends Error {

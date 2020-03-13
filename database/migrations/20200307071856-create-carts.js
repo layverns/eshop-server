@@ -14,6 +14,9 @@ module.exports = {
       product: {
         type: Sequelize.INTEGER,
       },
+      isChecked: {
+        type: Sequelize.BOOLEAN,
+      },
       quantity: {
         type: Sequelize.INTEGER,
       },

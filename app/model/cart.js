@@ -1,6 +1,6 @@
 'use strict';
 module.exports = app => {
-  const { TEXT, INTEGER } = app.Sequelize;
+  const { TEXT, INTEGER, BOOLEAN } = app.Sequelize;
 
   const Cart = app.model.define(
     'Cart',
@@ -16,6 +16,9 @@ module.exports = app => {
       product: {
         type: INTEGER,
       },
+      isChecked: {
+        type: BOOLEAN,
+      },
       quantity: {
         type: INTEGER,
       },
@@ -30,7 +33,6 @@ module.exports = app => {
 
   Cart.associate = function() {
     app.model.Cart.belongsTo(app.model.User, { foreignKey: 'product', targetKey: 'id' });
-    // app.model.Cart.hasOne(app.model.Product);
   };
 
   return Cart;

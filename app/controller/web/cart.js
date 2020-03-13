@@ -43,6 +43,42 @@ class CartController extends Controller {
     };
   }
 
+  async update() {
+    const { ctx } = this;
+    let { id, specs, quantity = 1 } = ctx.request.body.product;
+
+    let user = _.get(ctx, 'state.user.sub.id', null);
+
+    if (!validator.isNumeric(user + '')) {
+      throw new ServerError('登陆信息失效!', ERRORS.AUTHENTICATION.CODE);
+    }
+    if (!validator.isNumeric(id + '') || !validator.isNumeric(quantity + '') || _.isEmpty(specs)) {
+      throw new ServerError('参数错误!', ERRORS.VALIDATION.CODE);
+    }
+
+    await ctx.service.web.cart.update({ id, specs, quantity, user });
+
+    ctx.body = {};
+  }
+
+  async check() {
+    const { ctx } = this;
+    let { id, specs } = ctx.request.body.product;
+
+    let user = _.get(ctx, 'state.user.sub.id', null);
+
+    if (!validator.isNumeric(user + '')) {
+      throw new ServerError('登陆信息失效!', ERRORS.AUTHENTICATION.CODE);
+    }
+    if (!validator.isNumeric(id + '') || _.isEmpty(specs)) {
+      throw new ServerError('参数错误!', ERRORS.VALIDATION.CODE);
+    }
+
+    await ctx.service.web.cart.check({ id, specs, user });
+
+    ctx.body = {};
+  }
+
   async delete() {
     const { ctx } = this;
     let { id, specs } = ctx.request.body.product;

@@ -25,6 +25,9 @@ module.exports = app => {
   router.get('/api/product/search', controller.web.product.search);
 
   router.post('/api/carts', app.jwt, controller.web.cart.create);
+  router.delete('/api/carts', app.jwt, controller.web.cart.delete);
+  router.put('/api/carts', app.jwt, controller.web.cart.update);
+  router.put('/api/cart/check', app.jwt, controller.web.cart.check);
   router.get('/api/carts', app.jwt, controller.web.cart.getList);
 
   router.get('/api/new_products', controller.web.newProduct.getList);
