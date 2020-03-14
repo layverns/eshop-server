@@ -43,4 +43,8 @@ module.exports = app => {
   router.get('/api/present_products', controller.web.presentProduct.getList);
 
   router.get('/api/lists/:id', controller.web.list.getDetail);
+
+  router.get('/api/contacts/:id', controller.web.contact.getDetail);
+  router.get('/api/contacts', app.jwt, controller.web.contact.getList);
+  router.post('/api/contacts', app.jwt, controller.web.contact.create);
 };
