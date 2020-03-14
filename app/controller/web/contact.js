@@ -7,9 +7,9 @@ const _ = require('lodash');
 const { ERRORS, ServerError } = require('../../libs/errors');
 
 class ProductController extends Controller {
-  async create() {
+  async upsert() {
     const { ctx } = this;
-    let { province, city, district, address, person, phone } = ctx.request.body.contact;
+    let { province, city, district, address, person, phone, id, isDefault } = ctx.request.body;
 
     let user = _.get(ctx, 'state.user.sub.id', null);
 
@@ -20,7 +20,7 @@ class ProductController extends Controller {
       throw new ServerError('参数错误!', ERRORS.VALIDATION.CODE);
     }
 
-    await ctx.service.web.contact.create({ province, city, district, address, person, phone, user });
+    await ctx.service.web.contact.upsert({ province, city, district, address, person, phone, user, id, isDefault });
 
     ctx.body = {};
   }

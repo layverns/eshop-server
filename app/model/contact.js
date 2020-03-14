@@ -31,7 +31,7 @@ module.exports = app => {
       phone: {
         type: STRING,
       },
-      default: {
+      isDefault: {
         type: BOOLEAN,
         defaultValue: false,
       },

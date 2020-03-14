@@ -6,10 +6,21 @@ const _ = require('lodash');
 const { ERRORS, ServerError } = require('../../libs/errors');
 
 class ContactService extends Service {
-  async create(fields) {
+  async upsert(fields) {
     const { ctx } = this;
+    const { id, isDefault } = fields;
 
-    await ctx.model.Contact.create({ ...fields }, { raw: true });
+    if (isDefault == 1) {
+      await ctx.model.Contact.update({ isDefault: 0 }, { where: { isDefault: 1 } });
+    }
+
+    if (!id) {
+      console.log('create :', fields);
+      await ctx.model.Contact.create({ ...fields }, { raw: true });
+    } else {
+      console.log('update : ', fields);
+      await ctx.model.Contact.update({ ...fields }, { where: { id } });
+    }
   }
 
   async getDetail(id) {
@@ -26,14 +37,15 @@ class ContactService extends Service {
   async getList({ limit, offset, user }) {
     const { ctx } = this;
 
-    const contacts = await ctx.model.Contact.findAll({
+    let contacts = await ctx.model.Contact.findAll({
       where: { user },
       limit,
       offset,
       order: [
-        ['default', 'desc'],
+        ['isDefault', 'desc'],
         ['updatedAt', 'desc'],
       ],
+      attributes: ['id', 'province', 'city', 'district', 'address', 'person', 'phone', 'isDefault'],
       raw: true,
     });
 
