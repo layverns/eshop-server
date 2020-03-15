@@ -8,27 +8,40 @@ class CartService extends Service {
   async update(fields) {
     const { ctx } = this;
 
-    let quantity = fields.quantit;
+    let quantity = fields.quantity;
     if (quantity > 99) quantity = 99;
     if (quantity < 1) quantity = 1;
-    await ctx.model.Cart.update({ quantity }, { where: { product: fields.id, specs: JSON.stringify(fields.specs) } });
+    await ctx.model.Cart.update({ quantity }, { where: { product: fields.product, specs: JSON.stringify(fields.specs) } });
   }
 
   async check(fields) {
     const { ctx } = this;
 
-    let product = await ctx.model.Cart.findOne({ where: { product: fields.id, specs: JSON.stringify(fields.specs) }, raw: true });
+    let product = await ctx.model.Cart.findOne({ where: { product: fields.product, specs: JSON.stringify(fields.specs) }, raw: true });
     if (_.isEmpty(product)) {
       throw new ServerError('未找到该产品!', ERRORS.NOT_FOUND.CODE);
     }
-    await ctx.model.Cart.update({ isChecked: !product.isChecked }, { where: { product: fields.id, specs: JSON.stringify(fields.specs) } });
+    await ctx.model.Cart.update({ isChecked: !product.isChecked }, { where: { product: fields.product, specs: JSON.stringify(fields.specs) } });
+  }
+
+  async checkAll({ user }) {
+    const { ctx } = this;
+
+    await ctx.model.Cart.update({ isChecked: true }, { where: { user } });
+  }
+
+  async unCheckAll({ user }) {
+    const { ctx } = this;
+
+    await ctx.model.Cart.update({ isChecked: false }, { where: { user } });
   }
 
   async upsert(fields) {
     const { ctx } = this;
 
-    let cart = await ctx.model.Cart.findOne({ where: { product: fields.id, specs: JSON.stringify(fields.specs) }, raw: true });
+    let cart = await ctx.model.Cart.findOne({ where: { product: fields.product, specs: JSON.stringify(fields.specs) }, raw: true });
     if (_.isEmpty(cart)) {
+      fields.isChecked = true;
       cart = await ctx.model.Cart.create({ ...fields, specs: JSON.stringify(fields.specs) }, { raw: true });
       cart = cart.get({ plain: true });
     } else {
@@ -44,7 +57,7 @@ class CartService extends Service {
   async delete(fields) {
     const { ctx } = this;
 
-    await ctx.model.Cart.destroy({ where: { product: fields.id, specs: JSON.stringify(fields.specs) } });
+    await ctx.model.Cart.destroy({ where: { product: fields.product, specs: JSON.stringify(fields.specs) } });
   }
 
   async getList(user) {

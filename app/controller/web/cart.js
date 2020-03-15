@@ -25,7 +25,7 @@ class CartController extends Controller {
 
   async create() {
     const { ctx } = this;
-    let { id, specs, quantity } = ctx.request.body.product;
+    let { id, specs, quantity } = ctx.request.body;
 
     let user = _.get(ctx, 'state.user.sub.id', null);
 
@@ -36,7 +36,7 @@ class CartController extends Controller {
       throw new ServerError('参数错误!', ERRORS.VALIDATION.CODE);
     }
 
-    const cart = await ctx.service.web.cart.upsert({ id, specs, quantity, user });
+    const cart = await ctx.service.web.cart.upsert({ product: id, specs, quantity, user });
 
     ctx.body = {
       cart,
@@ -45,7 +45,7 @@ class CartController extends Controller {
 
   async update() {
     const { ctx } = this;
-    let { id, specs, quantity = 1 } = ctx.request.body.product;
+    let { id, specs, quantity = 1 } = ctx.request.body;
 
     let user = _.get(ctx, 'state.user.sub.id', null);
 
@@ -56,14 +56,14 @@ class CartController extends Controller {
       throw new ServerError('参数错误!', ERRORS.VALIDATION.CODE);
     }
 
-    await ctx.service.web.cart.update({ id, specs, quantity, user });
+    await ctx.service.web.cart.update({ product: id, specs, quantity, user });
 
     ctx.body = {};
   }
 
   async check() {
     const { ctx } = this;
-    let { id, specs } = ctx.request.body.product;
+    let { id, specs } = ctx.request.body;
 
     let user = _.get(ctx, 'state.user.sub.id', null);
 
@@ -74,14 +74,40 @@ class CartController extends Controller {
       throw new ServerError('参数错误!', ERRORS.VALIDATION.CODE);
     }
 
-    await ctx.service.web.cart.check({ id, specs, user });
+    await ctx.service.web.cart.check({ product: id, specs, user });
+
+    ctx.body = {};
+  }
+
+  async checkAll() {
+    const { ctx } = this;
+
+    let user = _.get(ctx, 'state.user.sub.id', null);
+    if (!validator.isNumeric(user + '')) {
+      throw new ServerError('登陆信息失效!', ERRORS.AUTHENTICATION.CODE);
+    }
+
+    await ctx.service.web.cart.checkAll({ user });
+
+    ctx.body = {};
+  }
+
+  async unCheckAll() {
+    const { ctx } = this;
+
+    let user = _.get(ctx, 'state.user.sub.id', null);
+    if (!validator.isNumeric(user + '')) {
+      throw new ServerError('登陆信息失效!', ERRORS.AUTHENTICATION.CODE);
+    }
+
+    await ctx.service.web.cart.unCheckAll({ user });
 
     ctx.body = {};
   }
 
   async delete() {
     const { ctx } = this;
-    let { id, specs } = ctx.request.body.product;
+    let { id, specs } = ctx.request.body;
 
     let user = _.get(ctx, 'state.user.sub.id', null);
 
@@ -92,7 +118,7 @@ class CartController extends Controller {
       throw new ServerError('参数错误!', ERRORS.VALIDATION.CODE);
     }
 
-    await ctx.service.web.cart.delete({ id, specs, user });
+    await ctx.service.web.cart.delete({ product: id, specs, user });
 
     ctx.body = {};
   }

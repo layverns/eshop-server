@@ -28,6 +28,8 @@ module.exports = app => {
   router.delete('/api/carts', app.jwt, controller.web.cart.delete);
   router.put('/api/carts', app.jwt, controller.web.cart.update);
   router.put('/api/cart/check', app.jwt, controller.web.cart.check);
+  router.put('/api/cart/check_all', app.jwt, controller.web.cart.checkAll);
+  router.put('/api/cart/uncheck_all', app.jwt, controller.web.cart.unCheckAll);
   router.get('/api/carts', app.jwt, controller.web.cart.getList);
 
   router.get('/api/new_products', controller.web.newProduct.getList);
