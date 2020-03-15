@@ -60,6 +60,12 @@ class CartService extends Service {
     await ctx.model.Cart.destroy({ where: { product: fields.product, specs: JSON.stringify(fields.specs) } });
   }
 
+  async deleteAll(user) {
+    const { ctx } = this;
+
+    await ctx.model.Cart.destroy({ where: { user } });
+  }
+
   async getList(user) {
     const { ctx } = this;
 

@@ -49,4 +49,6 @@ module.exports = app => {
   router.get('/api/contacts/:id', controller.web.contact.getDetail);
   router.get('/api/contacts', app.jwt, controller.web.contact.getList);
   router.post('/api/contacts', app.jwt, controller.web.contact.upsert);
+
+  router.post('/api/orders', app.jwt, controller.web.order.create);
 };
