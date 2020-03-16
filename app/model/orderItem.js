@@ -25,7 +25,7 @@ module.exports = app => {
       price: {
         type: DECIMAL(10, 2),
       },
-      old_price: {
+      oldPrice: {
         type: DECIMAL(10, 2),
       },
       quantity: {

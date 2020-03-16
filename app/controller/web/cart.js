@@ -16,7 +16,7 @@ class CartController extends Controller {
       throw new ServerError('登陆信息失效!', ERRORS.AUTHENTICATION.CODE);
     }
 
-    const carts = await ctx.service.web.cart.getList(user);
+    const carts = await ctx.service.web.cart.getList({ user });
 
     ctx.body = {
       carts,

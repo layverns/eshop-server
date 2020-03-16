@@ -27,7 +27,7 @@ module.exports = app => {
 
   ThirdCategory.associate = function() {
     app.model.ThirdCategory.belongsTo(app.model.Subcategory, { foreignKey: 'subcategory', targetKey: 'id' });
-    app.model.ThirdCategory.hasMany(app.model.Product, { foreignKey: 'third_category', sourceKey: 'id' });
+    app.model.ThirdCategory.hasMany(app.model.Product, { foreignKey: 'thirdCategory', sourceKey: 'id' });
   };
 
   return ThirdCategory;

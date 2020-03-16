@@ -66,7 +66,7 @@ class CartService extends Service {
     await ctx.model.Cart.destroy({ where: { user } });
   }
 
-  async getList(user) {
+  async getList({user}) {
     const { ctx } = this;
 
     let carts = await ctx.model.Cart.findAll({ where: { user }, raw: true });

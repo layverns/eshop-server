@@ -10,7 +10,7 @@ module.exports = app => {
         primaryKey: true,
         autoIncrement: true,
       },
-      third_category: {
+      thirdCategory: {
         type: STRING,
       },
       title: {
@@ -29,7 +29,7 @@ module.exports = app => {
   );
 
   Product.associate = function() {
-    app.model.Product.belongsTo(app.model.ThirdCategory, { foreignKey: 'third_category', targetKey: 'id' });
+    app.model.Product.belongsTo(app.model.ThirdCategory, { foreignKey: 'thirdCategory', targetKey: 'id' });
     app.model.Product.hasOne(app.model.ProductInfo, { foreignKey: 'product', sourceKey: 'id' });
     app.model.Product.hasMany(app.model.ProductSpec, { foreignKey: 'product', sourceKey: 'id' });
     app.model.Product.belongsToMany(app.model.Tag, { through: app.model.ProductTag, foreignKey: 'product' });

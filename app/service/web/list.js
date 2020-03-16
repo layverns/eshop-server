@@ -24,8 +24,8 @@ class ListService extends Service {
 
     let products = await ctx.model.Product.findAll({
       raw: true,
-      where: { third_category: { [Sequelize.Op.in]: thirdCategories.map(tc => tc.id) } },
-      attributes: ['id', 'title', 'subtitle', 'images', 'third_category'],
+      where: { thirdCategory: { [Sequelize.Op.in]: thirdCategories.map(tc => tc.id) } },
+      attributes: ['id', 'title', 'subtitle', 'images', 'thirdCategory'],
       order: [['created_at', 'desc']],
     });
 
@@ -52,19 +52,19 @@ class ListService extends Service {
           },
         });
         let price = getFirstNum(JSON.parse(info.prices));
-        let old_price = getFirstNum(JSON.parse(info.old_prices));
+        let oldPrice = getFirstNum(JSON.parse(info.oldPrices));
 
         return {
           ...p,
           price,
-          old_price,
+          oldPrice,
           images: JSON.parse(p.images),
           tags: tags.map(t => _.pick(t, ['id', 'title', 'color'])),
         };
       })
     );
 
-    let productsGroup = _.groupBy(products, 'third_category');
+    let productsGroup = _.groupBy(products, 'thirdCategory');
     thirdCategories = thirdCategories.map(tc => ({
       ...tc,
       products: productsGroup[tc.id],

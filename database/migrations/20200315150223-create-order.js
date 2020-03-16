@@ -15,6 +15,10 @@ module.exports = {
       user: {
         type: INTEGER,
       },
+      status: {
+        type: INTEGER,
+        defaultValue: 0,
+      },
       created_at: {
         allowNull: false,
         type: 'TIMESTAMP',

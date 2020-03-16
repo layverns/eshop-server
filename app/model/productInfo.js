@@ -16,7 +16,7 @@ module.exports = app => {
       prices: {
         type: TEXT,
       },
-      old_prices: {
+      oldPrices: {
         type: TEXT,
       },
       scores: {

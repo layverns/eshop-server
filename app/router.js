@@ -51,4 +51,6 @@ module.exports = app => {
   router.post('/api/contacts', app.jwt, controller.web.contact.upsert);
 
   router.post('/api/orders', app.jwt, controller.web.order.create);
+  router.get('/api/orders', app.jwt, controller.web.order.getList);
+  router.put('/api/order/pay', app.jwt, controller.web.order.pay);
 };

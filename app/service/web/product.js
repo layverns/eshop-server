@@ -28,7 +28,7 @@ class ProductService extends Service {
 
     if (!_.isEmpty(thirdCategoryId)) {
       options.where = {
-        third_category: thirdCategoryId,
+        thirdCategory: thirdCategoryId,
       };
     }
 
@@ -57,12 +57,12 @@ class ProductService extends Service {
           },
         });
         let price = getFirstNum(JSON.parse(info.prices));
-        let old_price = getFirstNum(JSON.parse(info.old_prices));
+        let oldPrice = getFirstNum(JSON.parse(info.oldPrices));
 
         return camelcaseKeys({
           ...p,
           price,
-          old_price,
+          oldPrice,
           images: JSON.parse(p.images),
           tags: tags.map(t => _.pick(t, ['id', 'title', 'color'])),
         });
@@ -254,15 +254,15 @@ class ProductService extends Service {
           },
         });
         let price = getFirstNum(JSON.parse(info.prices));
-        let old_price = getFirstNum(JSON.parse(info.old_prices));
+        let oldPrice = getFirstNum(JSON.parse(info.oldPrices));
 
-        return camelcaseKeys({
+        return {
           ...p,
           price,
-          old_price,
+          oldPrice,
           images: JSON.parse(p.images),
           tags: tags.map(t => _.pick(t, ['id', 'title', 'color'])),
-        });
+        };
       })
     );
 

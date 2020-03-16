@@ -16,6 +16,9 @@ module.exports = app => {
       user: {
         type: INTEGER,
       },
+      status: {
+        type: INTEGER,
+      },
     },
     {
       timestamps: true,
