@@ -10,7 +10,7 @@ module.exports = app => {
         primaryKey: true,
         autoIncrement: true,
       },
-      user: {
+      userId: {
         type: INTEGER,
       },
       province: {

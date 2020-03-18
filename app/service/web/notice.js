@@ -11,10 +11,10 @@ class NoticeService extends Service {
     return notices;
   }
 
-  async getDetail(id) {
+  async getDetail(where) {
     const { ctx } = this;
 
-    const notice = await ctx.model.Notice.findOne({ raw: true, where: { id } });
+    const notice = await ctx.model.Notice.findOne({ raw: true, where });
 
     return notice;
   }

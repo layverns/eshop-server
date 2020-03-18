@@ -10,7 +10,7 @@ module.exports = app => {
         primaryKey: true,
         autoIncrement: true,
       },
-      category: {
+      categoryId: {
         type: INTEGER,
       },
       title: {
@@ -23,8 +23,8 @@ module.exports = app => {
   );
 
   Subcategory.associate = function() {
-    app.model.Subcategory.belongsTo(app.model.Category, { foreignKey: 'category', targetKey: 'id' });
-    app.model.Subcategory.hasMany(app.model.ThirdCategory, { foreignKey: 'subcategory', sourceKey: 'id' });
+    app.model.Subcategory.belongsTo(app.model.Category, { foreignKey: 'categoryId', targetKey: 'id' });
+    app.model.Subcategory.hasMany(app.model.ThirdCategory, { foreignKey: 'subcategoryId', sourceKey: 'id' });
   };
 
   return Subcategory;

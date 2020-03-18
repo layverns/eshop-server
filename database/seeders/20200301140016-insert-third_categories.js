@@ -23,7 +23,7 @@ function getThirdcategories() {
         .slice(0, (index % 8) + 2)
         .map(tc => ({
           title: '三级分类' + count++,
-          subcategory: index + 1,
+          subcategory_id: index + 1,
           image: images[Math.floor(Math.random() * images.length)],
         }))
     )

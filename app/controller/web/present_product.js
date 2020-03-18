@@ -13,7 +13,7 @@ class PresentController extends Controller {
       throw new ServerError('参数错误!', ERRORS.VALIDATION.CODE);
     }
 
-    const presentProducts = await ctx.service.web.presentProduct.getList({ offset, limit });
+    const presentProducts = await ctx.service.web.presentProduct.getList({}, { offset, limit });
 
     ctx.body = {
       presentProducts,

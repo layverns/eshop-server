@@ -10,10 +10,10 @@ module.exports = app => {
         primaryKey: true,
         autoIncrement: true,
       },
-      product: {
+      productId: {
         type: INTEGER,
       },
-      tag: {
+      tagId: {
         type: INTEGER,
       },
     },

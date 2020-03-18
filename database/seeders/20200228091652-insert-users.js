@@ -22,6 +22,11 @@ const users = [
     email: 'mary@demo.com',
     image: 'https://static.easyicon.net/preview/120/1202944.gif',
   },
+  {
+    username: 'sara',
+    email: 'sara@demo.com',
+    image: 'https://static.easyicon.net/preview/58/583766.gif',
+  },
 ];
 
 function getUsers() {

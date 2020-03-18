@@ -13,7 +13,7 @@ class NewProductController extends Controller {
       throw new ServerError('参数错误!', ERRORS.VALIDATION.CODE);
     }
 
-    const newProducts = await ctx.service.web.newProduct.getList({ offset, limit });
+    const newProducts = await ctx.service.web.newProduct.getList({}, { offset, limit });
 
     ctx.body = {
       newProducts,

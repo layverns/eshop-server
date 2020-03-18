@@ -13,6 +13,9 @@ module.exports = app => {
       image: {
         type: STRING,
       },
+      categoryId: {
+        type: INTEGER,
+      },
     },
     {
       timestamps: true,

@@ -31,7 +31,7 @@ module.exports = app => {
       quantity: {
         type: INTEGER,
       },
-      order: {
+      orderId: {
         type: INTEGER,
       },
     },
@@ -41,7 +41,7 @@ module.exports = app => {
   );
 
   OrderItem.associate = function() {
-    app.model.OrderItem.belongsTo(app.model.Order, { foreignKey: 'order', targetKey: 'id' });
+    app.model.OrderItem.belongsTo(app.model.Order, { foreignKey: 'orderId', targetKey: 'id' });
   };
 
   return OrderItem;

@@ -10,7 +10,7 @@ module.exports = app => {
         primaryKey: true,
         autoIncrement: true,
       },
-      product: {
+      productId: {
         type: INTEGER,
       },
       spec: {
@@ -29,7 +29,7 @@ module.exports = app => {
   );
 
   ProductSpec.associate = function() {
-    app.model.ProductSpec.belongsTo(app.model.Product, { foreignKey: 'product', targetKey: 'id' });
+    app.model.ProductSpec.belongsTo(app.model.Product, { foreignKey: 'productId', targetKey: 'id' });
   };
 
   return ProductSpec;

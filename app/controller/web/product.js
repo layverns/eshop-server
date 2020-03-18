@@ -14,7 +14,7 @@ class ProductController extends Controller {
       throw new ServerError('参数错误!', ERRORS.VALIDATION.CODE);
     }
 
-    const product = await ctx.service.web.product.getDetail(id);
+    const product = await ctx.service.web.product.getDetail({ id });
 
     ctx.body = {
       product,
@@ -28,10 +28,29 @@ class ProductController extends Controller {
 
     const thirdCategoryId = ctx.query.thirdCategoryId;
 
-    const products = await ctx.service.web.product.getList({ thirdCategoryId, offset, limit });
+    const products = await ctx.service.web.product.getList({ thirdCategoryId }, { offset, limit });
 
     ctx.body = {
       products,
+    };
+  }
+
+  async getCommentList() {
+    const { ctx } = this;
+    const offset = Number.parseInt(ctx.query.offset || 0);
+    const limit = Number.parseInt(ctx.query.limit || 10);
+    const { id } = ctx.params;
+
+    if (!validator.isNumeric(id + '')) {
+      throw new ServerError('参数错误!', ERRORS.VALIDATION.CODE);
+    }
+
+    const comments = await ctx.service.web.product.getCommentList({ productId: id }, { offset, limit });
+    const commentInfo = await ctx.service.web.product.getCommentInfo({ productId: id });
+
+    ctx.body = {
+      comments,
+      ...commentInfo,
     };
   }
 

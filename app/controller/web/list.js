@@ -9,12 +9,12 @@ class ListController extends Controller {
   async getDetail() {
     const { ctx } = this;
 
-    const category_id = ctx.params.category_id;
-    if (!validator.isNumeric(category_id + '')) {
+    const categoryId = ctx.params.categoryId;
+    if (!validator.isNumeric(categoryId + '')) {
       throw new ServerError('参数错误!', ERRORS.VALIDATION.CODE);
     }
 
-    const list = await ctx.service.web.list.getDetail(category_id);
+    const list = await ctx.service.web.list.getDetail({ categoryId });
 
     ctx.body = {
       list,

@@ -5,7 +5,7 @@ const _ = require('lodash');
 const { getFirstNum } = require('../../libs/utils');
 
 class NewProductService extends Service {
-  async getList({ offset, limit }) {
+  async getList(where, { offset, limit }) {
     const { ctx } = this;
 
     let newProducts = await ctx.model.Product.findAll({
@@ -37,7 +37,7 @@ class NewProductService extends Service {
         let info = await ctx.model.ProductInfo.findOne({
           raw: true,
           where: {
-            product: p.id,
+            productId: p.id,
           },
         });
         let price = getFirstNum(JSON.parse(info.prices));

@@ -23,7 +23,7 @@ module.exports = app => {
   );
 
   Tag.associate = function() {
-    app.model.Tag.belongsToMany(app.model.Product, { through: app.model.ProductTag, foreignKey: 'tag' });
+    app.model.Tag.belongsToMany(app.model.Product, { through: app.model.ProductTag, foreignKey: 'tagId' });
   };
 
   return Tag;

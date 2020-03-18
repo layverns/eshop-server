@@ -15,30 +15,28 @@ class ContactService extends Service {
     }
 
     if (!id) {
-      console.log('create :', fields);
       await ctx.model.Contact.create({ ...fields }, { raw: true });
     } else {
-      console.log('update : ', fields);
       await ctx.model.Contact.update({ ...fields }, { where: { id } });
     }
   }
 
-  async getDetail(id) {
+  async getDetail(where) {
     const { ctx } = this;
 
     const contact = await ctx.model.Contact.findOne({
       raw: true,
-      where: { id },
+      where,
     });
 
     return contact;
   }
 
-  async getList({ limit, offset, user }) {
+  async getList(where, { limit, offset }) {
     const { ctx } = this;
 
     let contacts = await ctx.model.Contact.findAll({
-      where: { user },
+      where,
       limit,
       offset,
       order: [

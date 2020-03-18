@@ -16,17 +16,17 @@ const ORDER_STATUS = [
 ];
 
 class OrderService extends Service {
-  async create({ user }) {
+  async create({ userId }) {
     const { ctx } = this;
 
-    const carts = await ctx.service.web.cart.getList({ user });
+    const carts = await ctx.service.web.cart.getList({ userId, isChecked: true });
     if (_.isEmpty(carts)) {
       throw new ServerError('购物车还没有商品！', ERRORS.VALIDATION.CODE);
     }
 
     let now = moment();
     let no = '' + now.year() + now.month() + now.date() + now.hour() + now.minute() + now.second() + now.millisecond();
-    let order = await ctx.model.Order.create({ user, no, status: ORDER_STATUS[0].STATUS });
+    let order = await ctx.model.Order.create({ userId, no, status: ORDER_STATUS[0].STATUS });
 
     order = order.get({ plain: true });
 
@@ -43,44 +43,38 @@ class OrderService extends Service {
         .map((s, index) => {
           const productSpec = productSpecs[index];
           const spec = productSpec.filter(ps => ps.id == s)[0];
-          return spec.title;
+          return spec.spec + ':' + spec.title;
         })
         .join(' ');
 
       return {
-        product: c.id,
+        productId: c.id,
         image: c.images[0],
         title: c.title,
         specs: allSpecs,
         price,
         oldPrice,
         quantity: c.quantity,
-        order: order.id,
+        orderId: order.id,
       };
     });
 
     await ctx.model.OrderItem.bulkCreate(orderItems);
-    await ctx.service.web.cart.deleteAll(user);
+    await ctx.service.web.cart.deleteAll({ userId, isChecked: true });
   }
 
-  async getList({ user }) {
+  async getList({ userId }) {
     const { ctx } = this;
 
-    let orders = await ctx.model.Order.findAll({ where: { user }, raw: true });
+    let orders = await ctx.model.Order.findAll({ where: { userId }, raw: true });
 
     orders = await Promise.all(
       orders.map(async o => {
         let orderItems = await ctx.model.OrderItem.findAll({
           raw: true,
-          include: [
-            {
-              model: ctx.model.Order,
-              where: {
-                id: o.id,
-              },
-              attributes: [],
-            },
-          ],
+          where: {
+            orderId: o.id,
+          },
           attributes: ['id', 'product', 'image', 'price'],
         });
 

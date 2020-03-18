@@ -22,7 +22,7 @@ class NoticeController extends Controller {
       throw new ServerError('参数错误!', ERRORS.VALIDATION.CODE);
     }
 
-    const notice = await ctx.service.web.notice.getDetail(id);
+    const notice = await ctx.service.web.notice.getDetail({ id });
 
     ctx.body = {
       notice,

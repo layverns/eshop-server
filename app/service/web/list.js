@@ -6,26 +6,26 @@ const _ = require('lodash');
 const { getFirstNum } = require('../../libs/utils');
 
 class ListService extends Service {
-  async getDetail(id) {
+  async getDetail({ categoryId }) {
     const { ctx } = this;
     const { Sequelize } = ctx.app;
 
-    const category = await ctx.model.Category.findOne({ raw: true, where: { id }, attributes: ['id', 'title'] });
+    const category = await ctx.model.Category.findOne({ raw: true, where: { categoryId }, attributes: ['id', 'title'] });
 
-    const images = await ctx.model.Carousel.findAll({ raw: true, where: { category: id }, attributes: ['id', 'image'] });
+    const images = await ctx.model.Carousel.findAll({ raw: true, where: { categoryId }, attributes: ['id', 'image'] });
 
-    const subcats = await ctx.model.Subcategory.findAll({ raw: true, where: { category: id }, attributes: ['id', 'title'] });
+    const subcats = await ctx.model.Subcategory.findAll({ raw: true, where: { categoryId }, attributes: ['id', 'title'] });
 
     let thirdCategories = await ctx.model.ThirdCategory.findAll({
       raw: true,
-      where: { subcategory: { [Sequelize.Op.in]: subcats.map(sc => sc.id) } },
+      where: { subcategoryId: { [Sequelize.Op.in]: subcats.map(sc => sc.id) } },
       attributes: ['id', 'title'],
     });
 
     let products = await ctx.model.Product.findAll({
       raw: true,
-      where: { thirdCategory: { [Sequelize.Op.in]: thirdCategories.map(tc => tc.id) } },
-      attributes: ['id', 'title', 'subtitle', 'images', 'thirdCategory'],
+      where: { thirdCategoryId: { [Sequelize.Op.in]: thirdCategories.map(tc => tc.id) } },
+      attributes: ['id', 'title', 'subtitle', 'images', 'thirdCategoryId'],
       order: [['created_at', 'desc']],
     });
 
@@ -48,7 +48,7 @@ class ListService extends Service {
         let info = await ctx.model.ProductInfo.findOne({
           raw: true,
           where: {
-            product: p.id,
+            productId: p.id,
           },
         });
         let price = getFirstNum(JSON.parse(info.prices));

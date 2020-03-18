@@ -1,38 +1,32 @@
 'use strict';
 module.exports = {
   up: (queryInterface, Sequelize) => {
-    const { INTEGER, STRING, literal, DECIMAL } = Sequelize;
+    const { INTEGER, STRING, TEXT, literal } = Sequelize;
 
-    return queryInterface.createTable('order_items', {
+    return queryInterface.createTable('comments', {
       id: {
         allowNull: false,
         autoIncrement: true,
         primaryKey: true,
         type: INTEGER,
       },
-      product: {
+      product_id: {
         type: INTEGER,
       },
-      image: {
-        type: STRING,
-      },
-      title: {
-        type: STRING,
+      user_id: {
+        type: INTEGER,
       },
       specs: {
         type: STRING,
       },
-      price: {
-        type: DECIMAL(10, 2),
-      },
-      old_price: {
-        type: DECIMAL(10, 2),
-      },
-      quantity: {
+      stars: {
         type: INTEGER,
       },
-      order: {
-        type: INTEGER,
+      text: {
+        type: TEXT,
+      },
+      images: {
+        type: TEXT,
       },
       created_at: {
         allowNull: false,
@@ -47,6 +41,6 @@ module.exports = {
     });
   },
   down: (queryInterface, Sequelize) => {
-    return queryInterface.dropTable('order_items');
+    return queryInterface.dropTable('comments');
   },
 };

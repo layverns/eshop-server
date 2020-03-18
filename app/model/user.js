@@ -2,7 +2,7 @@
 module.exports = app => {
   const { STRING, INTEGER } = app.Sequelize;
 
-  return app.model.define(
+  const User = app.model.define(
     'User',
     {
       id: {
@@ -27,4 +27,8 @@ module.exports = app => {
       timestamps: true,
     }
   );
+
+  User.associate = function() {};
+
+  return User;
 };

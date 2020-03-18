@@ -20,7 +20,7 @@ module.exports = app => {
   );
 
   Category.associate = function() {
-    app.model.Category.hasMany(app.model.Subcategory, { foreignKey: 'category', sourceKey: 'id' });
+    app.model.Category.hasMany(app.model.Subcategory, { foreignKey: 'categoryId', sourceKey: 'id' });
   };
 
   return Category;

@@ -11,16 +11,16 @@ class ProductController extends Controller {
     const { ctx } = this;
     let { province, city, district, address, person, phone, id, isDefault } = ctx.request.body;
 
-    let user = _.get(ctx, 'state.user.sub.id', null);
+    let userId = _.get(ctx, 'state.user.sub.id', null);
 
-    if (!validator.isNumeric(user + '')) {
+    if (!validator.isNumeric(userId + '')) {
       throw new ServerError('登陆信息失效!', ERRORS.AUTHENTICATION.CODE);
     }
     if (_.isEmpty(province) || _.isEmpty(city) || _.isEmpty(district) || _.isEmpty(address) || _.isEmpty(person) || _.isEmpty(phone)) {
       throw new ServerError('参数错误!', ERRORS.VALIDATION.CODE);
     }
 
-    await ctx.service.web.contact.upsert({ province, city, district, address, person, phone, user, id, isDefault });
+    await ctx.service.web.contact.upsert({ province, city, district, address, person, phone, userId, id, isDefault });
 
     ctx.body = {};
   }
@@ -33,7 +33,7 @@ class ProductController extends Controller {
       throw new ServerError('参数错误!', ERRORS.VALIDATION.CODE);
     }
 
-    const contact = await ctx.service.web.contact.getDetail(id);
+    const contact = await ctx.service.web.contact.getDetail({ id });
 
     ctx.body = {
       contact,
@@ -45,12 +45,12 @@ class ProductController extends Controller {
     const offset = Number.parseInt(ctx.query.offset || 0);
     const limit = Number.parseInt(ctx.query.limit || 100);
 
-    let user = _.get(ctx, 'state.user.sub.id', null);
-    if (!validator.isNumeric(user + '')) {
+    let userId = _.get(ctx, 'state.user.sub.id', null);
+    if (!validator.isNumeric(userId + '')) {
       throw new ServerError('登陆信息失效!', ERRORS.AUTHENTICATION.CODE);
     }
 
-    const contacts = await ctx.service.web.contact.getList({ offset, limit, user });
+    const contacts = await ctx.service.web.contact.getList({ userId }, { offset, limit });
 
     ctx.body = {
       contacts,

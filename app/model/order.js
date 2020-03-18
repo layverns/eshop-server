@@ -13,7 +13,7 @@ module.exports = app => {
       no: {
         type: STRING,
       },
-      user: {
+      userId: {
         type: INTEGER,
       },
       status: {
@@ -26,7 +26,7 @@ module.exports = app => {
   );
 
   Order.associate = function() {
-    app.model.Order.hasMany(app.model.OrderItem, { foreignKey: 'order', sourceKey: 'id' });
+    app.model.Order.hasMany(app.model.OrderItem, { foreignKey: 'orderId', sourceKey: 'id' });
   };
 
   return Order;

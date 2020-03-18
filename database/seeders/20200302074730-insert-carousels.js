@@ -21,8 +21,8 @@ const categoryCarousels = [
 ];
 
 function getCarousels() {
-  let homCarousels = homeCarousels.map(c => ({ image: c, category: 0 }));
-  let catCarousels = _.flatten(getCategories().map((cat, index) => categoryCarousels.map(c => ({ image: c, category: index + 1 }))));
+  let homCarousels = homeCarousels.map(c => ({ image: c, category_id: 0 }));
+  let catCarousels = _.flatten(getCategories().map((cat, index) => categoryCarousels.map(c => ({ image: c, category_id: index + 1 }))));
   return _.concat(homCarousels, catCarousels);
 }
 

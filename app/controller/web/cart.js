@@ -10,13 +10,13 @@ class CartController extends Controller {
   async getList() {
     const { ctx } = this;
 
-    let user = _.get(ctx, 'state.user.sub.id', null);
+    let userId = _.get(ctx, 'state.user.sub.id', null);
 
-    if (!validator.isNumeric(user + '')) {
+    if (!validator.isNumeric(userId + '')) {
       throw new ServerError('登陆信息失效!', ERRORS.AUTHENTICATION.CODE);
     }
 
-    const carts = await ctx.service.web.cart.getList({ user });
+    const carts = await ctx.service.web.cart.getList({ userId });
 
     ctx.body = {
       carts,
@@ -25,18 +25,18 @@ class CartController extends Controller {
 
   async create() {
     const { ctx } = this;
-    let { id, specs, quantity } = ctx.request.body;
+    let { productId, specs, quantity } = ctx.request.body;
 
-    let user = _.get(ctx, 'state.user.sub.id', null);
+    let userId = _.get(ctx, 'state.user.sub.id', null);
 
-    if (!validator.isNumeric(user + '')) {
+    if (!validator.isNumeric(userId + '')) {
       throw new ServerError('登陆信息失效!', ERRORS.AUTHENTICATION.CODE);
     }
-    if (!validator.isNumeric(id + '') || !validator.isNumeric(quantity + '') || _.isEmpty(specs)) {
+    if (!validator.isNumeric(productId + '') || !validator.isNumeric(quantity + '') || _.isEmpty(specs)) {
       throw new ServerError('参数错误!', ERRORS.VALIDATION.CODE);
     }
 
-    const cart = await ctx.service.web.cart.upsert({ product: id, specs, quantity, user });
+    const cart = await ctx.service.web.cart.upsert({ productId, specs, quantity, userId });
 
     ctx.body = {
       cart,
@@ -45,36 +45,36 @@ class CartController extends Controller {
 
   async update() {
     const { ctx } = this;
-    let { id, specs, quantity = 1 } = ctx.request.body;
+    let { productId, specs, quantity = 1 } = ctx.request.body;
 
-    let user = _.get(ctx, 'state.user.sub.id', null);
+    let userId = _.get(ctx, 'state.user.sub.id', null);
 
-    if (!validator.isNumeric(user + '')) {
+    if (!validator.isNumeric(userId + '')) {
       throw new ServerError('登陆信息失效!', ERRORS.AUTHENTICATION.CODE);
     }
-    if (!validator.isNumeric(id + '') || !validator.isNumeric(quantity + '') || _.isEmpty(specs)) {
+    if (!validator.isNumeric(productId + '') || !validator.isNumeric(quantity + '') || _.isEmpty(specs)) {
       throw new ServerError('参数错误!', ERRORS.VALIDATION.CODE);
     }
 
-    await ctx.service.web.cart.update({ product: id, specs, quantity, user });
+    await ctx.service.web.cart.update({ quantity }, { productId, specs: JSON.stringify(specs), quantity, userId });
 
     ctx.body = {};
   }
 
   async check() {
     const { ctx } = this;
-    let { id, specs } = ctx.request.body;
+    let { productId, specs } = ctx.request.body;
 
-    let user = _.get(ctx, 'state.user.sub.id', null);
+    let userId = _.get(ctx, 'state.user.sub.id', null);
 
-    if (!validator.isNumeric(user + '')) {
+    if (!validator.isNumeric(userId + '')) {
       throw new ServerError('登陆信息失效!', ERRORS.AUTHENTICATION.CODE);
     }
-    if (!validator.isNumeric(id + '') || _.isEmpty(specs)) {
+    if (!validator.isNumeric(productId + '') || _.isEmpty(specs)) {
       throw new ServerError('参数错误!', ERRORS.VALIDATION.CODE);
     }
 
-    await ctx.service.web.cart.check({ product: id, specs, user });
+    await ctx.service.web.cart.check({ productId, specs: JSON.stringify(specs), userId });
 
     ctx.body = {};
   }
@@ -82,12 +82,12 @@ class CartController extends Controller {
   async checkAll() {
     const { ctx } = this;
 
-    let user = _.get(ctx, 'state.user.sub.id', null);
-    if (!validator.isNumeric(user + '')) {
+    let userId = _.get(ctx, 'state.user.sub.id', null);
+    if (!validator.isNumeric(userId + '')) {
       throw new ServerError('登陆信息失效!', ERRORS.AUTHENTICATION.CODE);
     }
 
-    await ctx.service.web.cart.checkAll({ user });
+    await ctx.service.web.cart.checkAll({ userId });
 
     ctx.body = {};
   }
@@ -95,30 +95,30 @@ class CartController extends Controller {
   async unCheckAll() {
     const { ctx } = this;
 
-    let user = _.get(ctx, 'state.user.sub.id', null);
-    if (!validator.isNumeric(user + '')) {
+    let userId = _.get(ctx, 'state.user.sub.id', null);
+    if (!validator.isNumeric(userId + '')) {
       throw new ServerError('登陆信息失效!', ERRORS.AUTHENTICATION.CODE);
     }
 
-    await ctx.service.web.cart.unCheckAll({ user });
+    await ctx.service.web.cart.unCheckAll({ userId });
 
     ctx.body = {};
   }
 
   async delete() {
     const { ctx } = this;
-    let { id, specs } = ctx.request.body;
+    let { productId, specs } = ctx.request.body;
 
-    let user = _.get(ctx, 'state.user.sub.id', null);
+    let userId = _.get(ctx, 'state.user.sub.id', null);
 
-    if (!validator.isNumeric(user + '')) {
+    if (!validator.isNumeric(userId + '')) {
       throw new ServerError('登陆信息失效!', ERRORS.AUTHENTICATION.CODE);
     }
-    if (!validator.isNumeric(id + '') || _.isEmpty(specs)) {
+    if (!validator.isNumeric(productId + '') || _.isEmpty(specs)) {
       throw new ServerError('参数错误!', ERRORS.VALIDATION.CODE);
     }
 
-    await ctx.service.web.cart.delete({ product: id, specs, user });
+    await ctx.service.web.cart.delete({ productId, specs: JSON.stringify(specs), userId });
 
     ctx.body = {};
   }

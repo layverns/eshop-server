@@ -13,7 +13,7 @@ const subcategories = [
 ];
 
 function getSubcategories() {
-  return _.flatten(subcategories.map((arr, index) => arr.map(s => ({ title: s, category: index + 1 }))));
+  return _.flatten(subcategories.map((arr, index) => arr.map(s => ({ title: s, category_id: index + 1 }))));
 }
 
 module.exports = {

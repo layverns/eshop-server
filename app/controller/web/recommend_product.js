@@ -13,7 +13,7 @@ class RecommendProductController extends Controller {
       throw new ServerError('参数错误!', ERRORS.VALIDATION.CODE);
     }
 
-    const recommendProducts = await ctx.service.web.recommendProduct.getList({ offset, limit });
+    const recommendProducts = await ctx.service.web.recommendProduct.getList({}, { offset, limit });
 
     ctx.body = {
       recommendProducts,

@@ -98,9 +98,9 @@ const product_infos = [
   },
   {
     subtitle: '网易云音乐定制 胡桃木/桃花芯二色可选 入门级合板琴 23寸',
-    prices: JSON.stringify([[359, 359]]),
-    old_prices: JSON.stringify([[0, 0]]),
-    scores: JSON.stringify([[35, 35]]),
+    prices: JSON.stringify([359, 329]),
+    old_prices: JSON.stringify([0, 0]),
+    scores: JSON.stringify([35, 32]),
   },
 ];
 
@@ -108,12 +108,12 @@ function getProductInfos() {
   return _.flatten(
     getProducts().map((p, index) =>
       product_infos
-        .filter(ps => p.subtitle == ps.subtitle)
-        .map(ps =>
+        .filter(pi => p.subtitle == pi.subtitle)
+        .map(pi =>
           _.omit(
             {
-              product: index + 1,
-              ...ps,
+              product_id: index + 1,
+              ...pi,
             },
             ['subtitle']
           )

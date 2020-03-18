@@ -38,7 +38,7 @@ class BestSellProductService extends Service {
         let info = await ctx.model.ProductInfo.findOne({
           raw: true,
           where: {
-            product: p.id,
+            productId: p.id,
           },
         });
         let price = getFirstNum(JSON.parse(info.prices));

@@ -10,13 +10,13 @@ class OrderController extends Controller {
   async create() {
     const { ctx } = this;
 
-    let user = _.get(ctx, 'state.user.sub.id', null);
+    let userId = _.get(ctx, 'state.user.sub.id', null);
 
-    if (!validator.isNumeric(user + '')) {
+    if (!validator.isNumeric(userId + '')) {
       throw new ServerError('登陆信息失效!', ERRORS.AUTHENTICATION.CODE);
     }
 
-    await ctx.service.web.order.create({ user });
+    await ctx.service.web.order.create({ userId });
 
     ctx.body = {};
   }
@@ -24,13 +24,13 @@ class OrderController extends Controller {
   async getList() {
     const { ctx } = this;
 
-    let user = _.get(ctx, 'state.user.sub.id', null);
+    let userId = _.get(ctx, 'state.user.sub.id', null);
 
-    if (!validator.isNumeric(user + '')) {
+    if (!validator.isNumeric(userId + '')) {
       throw new ServerError('登陆信息失效!', ERRORS.AUTHENTICATION.CODE);
     }
 
-    const orders = await ctx.service.web.order.getList({ user });
+    const orders = await ctx.service.web.order.getList({ userId });
 
     ctx.body = {
       orders,

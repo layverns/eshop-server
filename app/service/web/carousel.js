@@ -7,7 +7,7 @@ class CarouselService extends Service {
   async getHomeList() {
     const { ctx } = this;
 
-    const carousels = await ctx.model.Carousel.findAll({ raw: true, where: { category: 0 }, attributes: ['id', 'image'] });
+    const carousels = await ctx.model.Carousel.findAll({ raw: true, where: { categoryId: 0 }, attributes: ['id', 'image'] });
 
     return carousels;
   }
@@ -19,7 +19,7 @@ class CarouselService extends Service {
     if (_.isEmpty(categoryId)) {
       carousels = await ctx.model.Carousel.findAll({ raw: true, attributes: ['id', 'image'] });
     } else {
-      carousels = await ctx.model.Carousel.findAll({ raw: true, where: { category: categoryId }, attributes: ['id', 'image'] });
+      carousels = await ctx.model.Carousel.findAll({ raw: true, where: { categoryId }, attributes: ['id', 'image'] });
     }
 
     return carousels;

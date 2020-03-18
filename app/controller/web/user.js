@@ -15,7 +15,7 @@ class UserController extends Controller {
       throw new ServerError('登陆信息失效!', ERRORS.VALIDATION.CODE);
     }
 
-    const user = await ctx.service.web.user.get(email);
+    const user = await ctx.service.web.user.get({ email });
 
     ctx.body = {
       user,

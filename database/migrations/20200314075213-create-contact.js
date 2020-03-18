@@ -10,7 +10,7 @@ module.exports = {
         primaryKey: true,
         type: INTEGER,
       },
-      user: {
+      user_id: {
         type: INTEGER,
       },
       province: {

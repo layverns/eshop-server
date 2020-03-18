@@ -176,7 +176,7 @@ const product_specs = [
     title: '桃花芯',
     order: 0,
     index: 0,
-    image: 'hhttps://yanxuan-item.nosdn.127.net/093e300741d8c9be670abefd24b57ab7.jpg',
+    image: 'https://yanxuan-item.nosdn.127.net/093e300741d8c9be670abefd24b57ab7.jpg',
   },
   {
     subtitle: '网易云音乐定制 胡桃木/桃花芯二色可选 入门级合板琴 23寸',
@@ -196,7 +196,7 @@ function getProductSpecs() {
         .map(ps =>
           _.omit(
             {
-              product: index + 1,
+              product_id: index + 1,
               ...ps,
             },
             ['subtitle']

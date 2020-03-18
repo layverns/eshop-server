@@ -11,7 +11,7 @@ module.exports = {
       image: {
         type: Sequelize.STRING,
       },
-      category: {
+      category_id: {
         type: Sequelize.INTEGER,
       },
       created_at: {

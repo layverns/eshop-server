@@ -13,7 +13,7 @@ class TimeProductController extends Controller {
       throw new ServerError('参数错误!', ERRORS.VALIDATION.CODE);
     }
 
-    const timeProducts = await ctx.service.web.timeProduct.getList({ offset, limit });
+    const timeProducts = await ctx.service.web.timeProduct.getList({}, { offset, limit });
 
     ctx.body = {
       timeProducts,

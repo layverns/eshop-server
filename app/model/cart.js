@@ -10,10 +10,10 @@ module.exports = app => {
         primaryKey: true,
         autoIncrement: true,
       },
-      user: {
+      userId: {
         type: INTEGER,
       },
-      product: {
+      productId: {
         type: INTEGER,
       },
       isChecked: {
@@ -32,7 +32,7 @@ module.exports = app => {
   );
 
   Cart.associate = function() {
-    app.model.Cart.belongsTo(app.model.User, { foreignKey: 'product', targetKey: 'id' });
+    app.model.Cart.belongsTo(app.model.User, { foreignKey: 'userId', targetKey: 'id' });
   };
 
   return Cart;

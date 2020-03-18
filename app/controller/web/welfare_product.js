@@ -13,7 +13,7 @@ class WelfareController extends Controller {
       throw new ServerError('参数错误!', ERRORS.VALIDATION.CODE);
     }
 
-    const welfareProducts = await ctx.service.web.welfareProduct.getList({ offset, limit });
+    const welfareProducts = await ctx.service.web.welfareProduct.getList({}, { offset, limit });
 
     ctx.body = {
       welfareProducts,

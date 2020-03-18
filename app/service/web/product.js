@@ -28,7 +28,7 @@ class ProductService extends Service {
 
     if (!_.isEmpty(thirdCategoryId)) {
       options.where = {
-        thirdCategory: thirdCategoryId,
+        thirdCategoryId,
       };
     }
 
@@ -53,7 +53,7 @@ class ProductService extends Service {
         let info = await ctx.model.ProductInfo.findOne({
           raw: true,
           where: {
-            product: p.id,
+            productId: p.id,
           },
         });
         let price = getFirstNum(JSON.parse(info.prices));
@@ -72,7 +72,7 @@ class ProductService extends Service {
     return products;
   }
 
-  async getDetail(id) {
+  async getDetail({ id }) {
     const { ctx } = this;
 
     let product = null;
@@ -93,45 +93,27 @@ class ProductService extends Service {
 
     thirdCategory = await ctx.model.ThirdCategory.findOne({
       raw: true,
-      include: [
-        {
-          model: ctx.model.Product,
-          where: {
-            id: id,
-          },
-          attributes: [],
-        },
-      ],
-      attributes: ['id', 'title', 'subcategory'],
+      where: {
+        id: product.thirdCategoryId,
+      },
+      attributes: ['id', 'title', 'subcategoryId'],
     });
 
     if (!_.isEmpty(thirdCategory)) {
       subcategory = await ctx.model.Subcategory.findOne({
         raw: true,
-        include: [
-          {
-            model: ctx.model.ThirdCategory,
-            where: {
-              id: thirdCategory.id,
-            },
-            attributes: [],
-          },
-        ],
-        attributes: ['id', 'title', 'category'],
+        where: {
+          id: thirdCategory.id,
+        },
+        attributes: ['id', 'title', 'categoryId'],
       });
 
       if (!_.isEmpty(subcategory)) {
         category = await ctx.model.Category.findOne({
           raw: true,
-          include: [
-            {
-              model: ctx.model.Subcategory,
-              where: {
-                id: subcategory.id,
-              },
-              attributes: [],
-            },
-          ],
+          where: {
+            id: subcategory.categoryId,
+          },
           attributes: ['id', 'title'],
         });
       }
@@ -139,23 +121,17 @@ class ProductService extends Service {
 
     productInfo = await ctx.model.ProductInfo.findOne({
       raw: true,
-      include: [
-        {
-          model: ctx.model.Product,
-          where: {
-            id: id,
-          },
-          attributes: [],
-        },
-      ],
-      attributes: ['id', 'prices', 'old_prices', 'scores'],
+      where: {
+        productId: id,
+      },
+      attributes: ['id', 'prices', 'oldPrices', 'scores'],
     });
 
     if (!_.isEmpty(productInfo)) {
       productInfo = {
         id: productInfo.id,
         prices: JSON.parse(productInfo.prices),
-        old_prices: JSON.parse(productInfo.old_prices),
+        oldPrices: JSON.parse(productInfo.oldPrices),
         scores: JSON.parse(productInfo.scores),
       };
     }
@@ -178,15 +154,9 @@ class ProductService extends Service {
 
     productSpecs = await ctx.model.ProductSpec.findAll({
       raw: true,
-      include: [
-        {
-          model: ctx.model.Product,
-          where: {
-            id: id,
-          },
-          attributes: [],
-        },
-      ],
+      where: {
+        productId: id,
+      },
       attributes: ['id', 'spec', 'title', 'image', 'order', 'index'],
     });
 
@@ -198,6 +168,7 @@ class ProductService extends Service {
     return {
       ...product,
       images: JSON.parse(product.images),
+      details: JSON.parse(product.details),
       category,
       subcategory,
       thirdCategory,
@@ -207,7 +178,7 @@ class ProductService extends Service {
     };
   }
 
-  async getList({ thirdCategoryId, limit, offset }) {
+  async getList({ thirdCategoryId }, { limit, offset }) {
     const { ctx } = this;
 
     let options = {
@@ -218,15 +189,9 @@ class ProductService extends Service {
     };
 
     if (thirdCategoryId) {
-      options.include = [
-        {
-          model: ctx.model.ThirdCategory,
-          where: {
-            id: thirdCategoryId,
-          },
-          attributes: [],
-        },
-      ];
+      options.where = {
+        thirdCategoryId,
+      };
     }
 
     let products = await ctx.model.Product.findAll(options);
@@ -250,7 +215,7 @@ class ProductService extends Service {
         let info = await ctx.model.ProductInfo.findOne({
           raw: true,
           where: {
-            product: p.id,
+            productId: p.id,
           },
         });
         let price = getFirstNum(JSON.parse(info.prices));
@@ -267,6 +232,39 @@ class ProductService extends Service {
     );
 
     return products;
+  }
+
+  async getCommentList(where, { offset, limit }) {
+    const { ctx } = this;
+
+    let comments = await ctx.model.Comment.findAll({
+      limit,
+      offset,
+      where,
+      attributes: ['id', 'productId', 'specs', 'stars', 'text', 'images', 'createdAt'],
+      include: [
+        {
+          model: ctx.model.User,
+          as: 'user',
+          attributes: ['id', 'username', 'email', 'image'],
+        },
+      ],
+    });
+
+    return comments.map(c => ({ ...c.get({ plain: true }), images: JSON.parse(c.get('images')) }));
+  }
+
+  async getCommentInfo(where) {
+    const { ctx } = this;
+
+    let commentCount = await ctx.model.Comment.count({
+      where,
+    });
+    let sum = await ctx.model.Comment.sum('stars', {
+      where,
+    });
+
+    return { commentCount, commentAvgStars: sum / commentCount };
   }
 }
 
