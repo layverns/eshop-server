@@ -103,7 +103,7 @@ class ProductService extends Service {
       subcategory = await ctx.model.Subcategory.findOne({
         raw: true,
         where: {
-          id: thirdCategory.id,
+          id: thirdCategory.subcategoryId,
         },
         attributes: ['id', 'title', 'categoryId'],
       });

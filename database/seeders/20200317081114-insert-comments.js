@@ -66,7 +66,7 @@ const comments = [
     images: ['https://yanxuan.nosdn.127.net/c2eeecf49206a33ac43f3f76862895c8.jpg', 'https://yanxuan.nosdn.127.net/0b2a57de30ee659301462d3a01428fa0.jpg'],
   },
   {
-    subtitle: '网易云音乐定制 胡桃木/桃花芯二色可选 入门级合板琴 23寸。',
+    subtitle: '网易云音乐定制 胡桃木/桃花芯二色可选 入门级合板琴 23寸',
     user_id: 3,
     specs: '材质:胡桃木',
     stars: 3,
@@ -78,7 +78,7 @@ const comments = [
 function getComments() {
   let allComments = [];
   for (let i = 0; i < 50; i++) {
-    allComments = allComments.concat(comments.map(c => ({ ...c, text: c.text + (i + 1), images: JSON.stringify(c.images) })));
+    allComments = allComments.concat(comments.map(c => ({ ...c, stars: _.random(1, 5), text: c.text + (i + 1), images: JSON.stringify(_.shuffle(c.images)) })));
   }
 
   return _.flatten(
