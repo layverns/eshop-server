@@ -16,6 +16,7 @@ module.exports = app => {
 
   router.get('/api/categories', controller.web.category.getList);
   router.get('/api/categories/:id', controller.web.category.getDetail);
+  router.get('/api/category/list', controller.web.category.getCategoryList);
 
   router.get('/api/home/carousels', controller.web.carousel.getHomeList);
   router.get('/api/carousels', controller.web.carousel.getList);
@@ -26,7 +27,7 @@ module.exports = app => {
   router.get('/api/products/:id/comments', controller.web.product.getCommentList);
 
   router.post('/api/carts', app.jwt, controller.web.cart.create);
-  router.delete('/api/carts', app.jwt, controller.web.cart.delete);
+  router.put('/api/cart/del', app.jwt, controller.web.cart.delete);
   router.put('/api/carts', app.jwt, controller.web.cart.update);
   router.put('/api/cart/check', app.jwt, controller.web.cart.check);
   router.put('/api/cart/check_all', app.jwt, controller.web.cart.checkAll);
@@ -45,7 +46,7 @@ module.exports = app => {
 
   router.get('/api/present_products', controller.web.presentProduct.getList);
 
-  router.get('/api/lists/:id', controller.web.list.getDetail);
+  router.get('/api/lists/:categoryId', controller.web.list.getDetail);
 
   router.get('/api/contacts/:id', controller.web.contact.getDetail);
   router.get('/api/contacts', app.jwt, controller.web.contact.getList);

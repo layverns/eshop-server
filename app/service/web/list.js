@@ -3,14 +3,12 @@
 const Service = require('egg').Service;
 const _ = require('lodash');
 
-const { getFirstNum } = require('../../libs/utils');
-
 class ListService extends Service {
   async getDetail({ categoryId }) {
     const { ctx } = this;
     const { Sequelize } = ctx.app;
 
-    const category = await ctx.model.Category.findOne({ raw: true, where: { categoryId }, attributes: ['id', 'title'] });
+    const category = await ctx.model.Category.findOne({ raw: true, where: { id: categoryId }, attributes: ['id', 'title'] });
 
     const images = await ctx.model.Carousel.findAll({ raw: true, where: { categoryId }, attributes: ['id', 'image'] });
 
@@ -25,8 +23,14 @@ class ListService extends Service {
     let products = await ctx.model.Product.findAll({
       raw: true,
       where: { thirdCategoryId: { [Sequelize.Op.in]: thirdCategories.map(tc => tc.id) } },
-      attributes: ['id', 'title', 'subtitle', 'images', 'thirdCategoryId'],
       order: [['created_at', 'desc']],
+      attributes: {
+        include: [
+          [Sequelize.cast(Sequelize.col('price'), 'double'), 'price'],
+          [Sequelize.cast(Sequelize.col('old_price'), 'double'), 'oldPrice'],
+          [Sequelize.cast(Sequelize.col('images'), 'json'), 'images'],
+        ],
+      },
     });
 
     products = await Promise.all(
@@ -45,26 +49,14 @@ class ListService extends Service {
           attributes: ['id', 'title', 'color'],
         });
 
-        let info = await ctx.model.ProductInfo.findOne({
-          raw: true,
-          where: {
-            productId: p.id,
-          },
-        });
-        let price = getFirstNum(JSON.parse(info.prices));
-        let oldPrice = getFirstNum(JSON.parse(info.oldPrices));
-
         return {
           ...p,
-          price,
-          oldPrice,
-          images: JSON.parse(p.images),
           tags: tags.map(t => _.pick(t, ['id', 'title', 'color'])),
         };
       })
     );
 
-    let productsGroup = _.groupBy(products, 'thirdCategory');
+    let productsGroup = _.groupBy(products, 'thirdCategoryId');
     thirdCategories = thirdCategories.map(tc => ({
       ...tc,
       products: productsGroup[tc.id],

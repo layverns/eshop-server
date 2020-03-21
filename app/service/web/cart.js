@@ -42,7 +42,7 @@ class CartService extends Service {
     let cart = await ctx.model.Cart.findOne({ where: { productId, specs: JSON.stringify(specs), userId }, raw: true });
     if (_.isEmpty(cart)) {
       let isChecked = true;
-      cart = await ctx.model.Cart.create({ productId, quantity, userId, isChecked, specs: JSON.stringify(fields.specs) }, { raw: true });
+      cart = await ctx.model.Cart.create({ productId, quantity, userId, isChecked, specs: JSON.stringify(specs) }, { raw: true });
       cart = cart.get({ plain: true });
     } else {
       quantity = cart.quantity + quantity;
@@ -57,7 +57,7 @@ class CartService extends Service {
   async delete(where) {
     const { ctx } = this;
 
-    await ctx.model.Cart.destroy(where);
+    await ctx.model.Cart.destroy({ where });
   }
 
   async deleteAll(where) {

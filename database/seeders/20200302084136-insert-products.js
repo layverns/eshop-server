@@ -1,11 +1,14 @@
 'use strict';
 const _ = require('lodash');
 const { getThirdcategories } = require('./20200301140016-insert-third_categories');
+const moment = require('moment');
 
 const products = [
   {
     title: '3秒一杯，超即溶精品咖啡 24颗',
     subtitle: '6种烘焙风格，一盒尽享',
+    price: 179,
+    old_price: 219,
     images: [
       'https://yanxuan-item.nosdn.127.net/41ceec9f74f2ea5b4e40c92b192f4136.png',
       'https://yanxuan-item.nosdn.127.net/d5d061c6c2ec3fc35220f55a7e48deab.jpg',
@@ -59,6 +62,8 @@ const products = [
   {
     title: '冬日宅家绝配本命，女式经典法兰绒居家套装',
     subtitle: '安心101%棉 全棉的软糯与柔情',
+    price: 119,
+    old_price: 219,
     images: [
       'https://yanxuan-item.nosdn.127.net/04e2340099b29daf1bb3b99424c2f6c0.png',
       'https://yanxuan-item.nosdn.127.net/fa838fd7cdd0b7400165fdab60a2c977.png',
@@ -113,6 +118,8 @@ const products = [
   {
     title: '炒出家的味道 中华精铁爆炒锅',
     subtitle: '物理不粘无涂层，耐磨耐用',
+    price: 259,
+    old_price: 300,
     images: [
       'https://yanxuan-item.nosdn.127.net/ca33501c2d6e03bed2dc8e00cf571fdc.png',
       'https://yanxuan-item.nosdn.127.net/fb6b455a6875a5fe1d7eaacdecf6ebc6.jpg',
@@ -162,6 +169,8 @@ const products = [
   {
     title: '澳洲西拉干红 750毫升',
     subtitle: '新世界经典混酿代表',
+    price: 59,
+    old_price: 69,
     images: [
       'https://yanxuan-item.nosdn.127.net/88b74c01e5af29d154678b57422eacd1.png',
       'https://yanxuan-item.nosdn.127.net/f8f61b2ced6ed6a72d07a8e74ed7d5ac.jpg',
@@ -207,6 +216,8 @@ const products = [
   {
     title: '剪出精致感，金致圆柄复古剪刀',
     subtitle: '轻薄设计，简约大方',
+    price: 9.9,
+    old_price: 19.9,
     images: [
       'https://yanxuan-item.nosdn.127.net/ade0ec4f0d2d56c723becb8002a69f75.png',
       'https://yanxuan-item.nosdn.127.net/4c6a9c8a579b00e5e9c7b002d15a33a2.jpg',
@@ -219,6 +230,8 @@ const products = [
   {
     title: '热豆浆鲜果汁分杯不串味 多功能破壁机',
     subtitle: '高速破壁，彻底释放营养',
+    price: 699,
+    old_price: 0,
     images: [
       'https://yanxuan-item.nosdn.127.net/000145de66f32a33aa4874585af32cd1.png',
       'https://yanxuan-item.nosdn.127.net/d93c96638754dedc829d8690db73c3fa.jpg',
@@ -265,6 +278,8 @@ TRITAN杯： 最大1.75 L，做冷饮建议不超过1.4 L`,
   {
     title: '网易智造云感手机保护壳（iPhone系列）',
     subtitle: '日本进口液态硅胶，iPhone手机的舒适感。',
+    price: 29,
+    old_price: 40,
     images: [
       'https://yanxuan-item.nosdn.127.net/2d6b904324ec63abff04673e98535efe.png',
       'https://yanxuan-item.nosdn.127.net/1d53d199c495ba068701d1d275dd978d.jpg',
@@ -311,6 +326,8 @@ TRITAN杯： 最大1.75 L，做冷饮建议不超过1.4 L`,
   {
     title: '网易云音乐 易系列尤克里里 入门款23寸',
     subtitle: '网易云音乐定制 胡桃木/桃花芯二色可选 入门级合板琴 23寸',
+    price: 359,
+    old_price: 0,
     images: [
       'https://yanxuan-item.nosdn.127.net/748d6326bf5df793303250b58aa6e5eb.png',
       'https://yanxuan-item.nosdn.127.net/2e6d5d6acb2c29aa2964d5a8da0da762.png',
@@ -324,6 +341,7 @@ TRITAN杯： 最大1.75 L，做冷饮建议不超过1.4 L`,
 
 function getProducts() {
   let count = 1;
+  let time = moment().subtract(1, 'days');
   return _.flatten(
     getThirdcategories().map((th, index) =>
       products.map(p => ({
@@ -332,6 +350,8 @@ function getProducts() {
         images: JSON.stringify(p.images),
         details: JSON.stringify(p.details),
         third_category_id: index + 1,
+        created_at: time.add(1, 'seconds').format('YYYY-MM-DD HH:mm:ss.SSSSSS'),
+        updated_at: time.add(1, 'seconds').format('YYYY-MM-DD HH:mm:ss.SSSSSS'),
       }))
     )
   );

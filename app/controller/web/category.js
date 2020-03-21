@@ -14,6 +14,16 @@ class CategoryController extends Controller {
     };
   }
 
+  async getCategoryList() {
+    const { ctx } = this;
+
+    const categoryList = await ctx.service.web.category.getCategoryList();
+
+    ctx.body = {
+      categoryList,
+    };
+  }
+
   async getDetail() {
     const { ctx } = this;
     const { id } = ctx.params;

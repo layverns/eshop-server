@@ -10,6 +10,9 @@ module.exports = app => {
         primaryKey: true,
         autoIncrement: true,
       },
+      categoryId: {
+        type: INTEGER,
+      },
       subcategoryId: {
         type: INTEGER,
       },
@@ -26,7 +29,7 @@ module.exports = app => {
   );
 
   ThirdCategory.associate = function() {
-    app.model.ThirdCategory.belongsTo(app.model.Subcategory, { foreignKey: 'subcategoryId', targetKey: 'id' });
+    app.model.ThirdCategory.belongsTo(app.model.Subcategory, { foreignKey: 'subcategoryId', targetKey: 'id', as: 'subcategory' });
     app.model.ThirdCategory.hasMany(app.model.Product, { foreignKey: 'thirdCategoryId', sourceKey: 'id' });
   };
 

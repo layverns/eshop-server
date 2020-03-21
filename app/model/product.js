@@ -1,6 +1,6 @@
 'use strict';
 module.exports = app => {
-  const { STRING, INTEGER, TEXT } = app.Sequelize;
+  const { STRING, INTEGER, TEXT, DECIMAL } = app.Sequelize;
 
   const Product = app.model.define(
     'Product',
@@ -24,6 +24,12 @@ module.exports = app => {
       },
       details: {
         type: TEXT,
+      },
+      price: {
+        type: DECIMAL(10, 2),
+      },
+      oldPrice: {
+        type: DECIMAL(10, 2),
       },
     },
     {

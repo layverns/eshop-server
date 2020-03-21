@@ -4,35 +4,73 @@ const Service = require('egg').Service;
 const _ = require('lodash');
 const camelcaseKeys = require('camelcase-keys');
 
-const { getFirstNum } = require('../../libs/utils');
 const { ERRORS, ServerError } = require('../../libs/errors');
 
 class ProductService extends Service {
-  async search({ keyword, offset, limit, sort, order, thirdCategoryId }) {
+  async search({ keyword, offset, limit, sort, order, categoryId }) {
     const { ctx } = this;
     const { Sequelize } = ctx.app;
 
     let options = {
       raw: true,
-      order: [['created_at', 'desc']],
       limit,
       offset,
       order: [[sort, order]],
+      where: {},
+      attributes: {
+        include: [
+          [Sequelize.cast(Sequelize.col('price'), 'double'), 'price'],
+          [Sequelize.cast(Sequelize.col('old_price'), 'double'), 'oldPrice'],
+          [Sequelize.cast(Sequelize.col('images'), 'json'), 'images'],
+        ],
+      },
     };
 
     if (!_.isEmpty(keyword)) {
-      options.where = {
-        title: { [Sequelize.Op.like]: `%${keyword}%` },
-      };
+      options.where['title'] = { [Sequelize.Op.like]: `%${keyword}%` };
     }
 
-    if (!_.isEmpty(thirdCategoryId)) {
-      options.where = {
-        thirdCategoryId,
-      };
+    if (!_.isEmpty(categoryId)) {
+      let subcategories = await ctx.model.Subcategory.findAll({ where: { categoryId } });
+      let subcategoryIds = subcategories.map(sc => sc.id);
+      let thirdCategories = await ctx.model.ThirdCategory.findAll({
+        where: { subcategoryId: { [Sequelize.Op.in]: subcategoryIds } },
+      });
+      let thirdCategoryIds = thirdCategories.map(tc => tc.id);
+      options.where['thirdCategoryId'] = { [Sequelize.Op.in]: thirdCategoryIds };
     }
 
+    let productCount = await ctx.model.Product.count({ where: options.where });
     let products = await ctx.model.Product.findAll(options);
+
+    let allProducts = await ctx.model.Product.findAll({
+      raw: true,
+      where: _.omit(options.where, 'thirdCategoryId'),
+      attributes: ['thirdCategoryId'],
+    });
+    let thirdCategoryIds = _.uniq(allProducts.map(p => p.thirdCategoryId));
+
+    let thirdCategories = await ctx.model.ThirdCategory.findAll({
+      where: {
+        id: { [Sequelize.Op.in]: thirdCategoryIds },
+      },
+      include: [
+        {
+          model: ctx.model.Subcategory,
+          as: 'subcategory',
+          include: [
+            {
+              model: ctx.model.Category,
+              as: 'category',
+            },
+          ],
+        },
+      ],
+    });
+    let categories = _.uniqBy(
+      thirdCategories.map(tc => tc.subcategory.category.get({ plain: true })),
+      c => c.id
+    );
 
     products = await Promise.all(
       products.map(async p => {
@@ -50,30 +88,19 @@ class ProductService extends Service {
           attributes: ['id', 'title', 'color'],
         });
 
-        let info = await ctx.model.ProductInfo.findOne({
-          raw: true,
-          where: {
-            productId: p.id,
-          },
-        });
-        let price = getFirstNum(JSON.parse(info.prices));
-        let oldPrice = getFirstNum(JSON.parse(info.oldPrices));
-
-        return camelcaseKeys({
+        return {
           ...p,
-          price,
-          oldPrice,
-          images: JSON.parse(p.images),
           tags: tags.map(t => _.pick(t, ['id', 'title', 'color'])),
-        });
+        };
       })
     );
 
-    return products;
+    return { products, productCount, categories };
   }
 
   async getDetail({ id }) {
     const { ctx } = this;
+    const { Sequelize } = ctx.app;
 
     let product = null;
     let thirdCategory = null;
@@ -86,6 +113,13 @@ class ProductService extends Service {
     product = await ctx.model.Product.findOne({
       raw: true,
       where: { id },
+      attributes: {
+        include: [
+          [Sequelize.cast(Sequelize.col('price'), 'double'), 'price'],
+          [Sequelize.cast(Sequelize.col('old_price'), 'double'), 'oldPrice'],
+          [Sequelize.cast(Sequelize.col('images'), 'json'), 'images'],
+        ],
+      },
     });
     if (_.isEmpty(product)) {
       throw new ServerError('没有该产品信息!', ERRORS.VALIDATION.CODE);
@@ -167,7 +201,6 @@ class ProductService extends Service {
 
     return {
       ...product,
-      images: JSON.parse(product.images),
       details: JSON.parse(product.details),
       category,
       subcategory,
@@ -180,12 +213,20 @@ class ProductService extends Service {
 
   async getList({ thirdCategoryId }, { limit, offset }) {
     const { ctx } = this;
+    const { Sequelize } = ctx.app;
 
     let options = {
       raw: true,
       order: [['created_at', 'desc']],
       limit,
       offset,
+      attributes: {
+        include: [
+          [Sequelize.cast(Sequelize.col('price'), 'double'), 'price'],
+          [Sequelize.cast(Sequelize.col('old_price'), 'double'), 'oldPrice'],
+          [Sequelize.cast(Sequelize.col('images'), 'json'), 'images'],
+        ],
+      },
     };
 
     if (thirdCategoryId) {
@@ -212,20 +253,8 @@ class ProductService extends Service {
           attributes: ['id', 'title', 'color'],
         });
 
-        let info = await ctx.model.ProductInfo.findOne({
-          raw: true,
-          where: {
-            productId: p.id,
-          },
-        });
-        let price = getFirstNum(JSON.parse(info.prices));
-        let oldPrice = getFirstNum(JSON.parse(info.oldPrices));
-
         return {
           ...p,
-          price,
-          oldPrice,
-          images: JSON.parse(p.images),
           tags: tags.map(t => _.pick(t, ['id', 'title', 'color'])),
         };
       })

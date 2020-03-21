@@ -19,9 +19,7 @@ module.exports = app => {
     }
   );
 
-  Category.associate = function() {
-    app.model.Category.hasMany(app.model.Subcategory, { foreignKey: 'categoryId', sourceKey: 'id' });
-  };
+  Category.associate = function() {};
 
   return Category;
 };

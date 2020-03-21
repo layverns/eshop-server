@@ -108,7 +108,7 @@ class CartController extends Controller {
   async delete() {
     const { ctx } = this;
     let { productId, specs } = ctx.request.body;
-
+    console.log('ctx.request.body: ', ctx.request.body);
     let userId = _.get(ctx, 'state.user.sub.id', null);
 
     if (!validator.isNumeric(userId + '')) {

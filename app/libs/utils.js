@@ -1,11 +1,3 @@
-const getFirstNum = arr => {
-  if (typeof arr == 'number') {
-    return arr;
-  } else {
-    return getFirstNum(arr[0]);
-  }
-};
-
 /**
  * 获取多维数组的某个元素
  * @param {*} arr 多维数组
@@ -39,6 +31,5 @@ const getInfoOfSpecs = (specs, productSpecs, datas) => {
 };
 
 module.exports = {
-  getFirstNum,
   getInfoOfSpecs,
 };

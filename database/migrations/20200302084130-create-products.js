@@ -1,7 +1,7 @@
 'use strict';
 module.exports = {
   up: (queryInterface, Sequelize) => {
-    const { INTEGER, STRING, TEXT } = Sequelize;
+    const { INTEGER, STRING, TEXT, DECIMAL } = Sequelize;
 
     return queryInterface.createTable('products', {
       id: {
@@ -24,6 +24,12 @@ module.exports = {
       },
       details: {
         type: TEXT,
+      },
+      price: {
+        type: DECIMAL(10, 2),
+      },
+      old_price: {
+        type: DECIMAL(10, 2),
       },
       created_at: {
         allowNull: false,

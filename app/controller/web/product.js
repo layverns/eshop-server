@@ -57,18 +57,17 @@ class ProductController extends Controller {
   async search() {
     const { ctx } = this;
 
-    console.log('search query: ', ctx.query);
-
     const offset = Number.parseInt(ctx.query.offset || 0);
     const limit = Number.parseInt(ctx.query.limit || 40);
     const sort = ctx.query.sort || 'created_at';
     const order = ctx.query.order || 'desc';
-    const thirdCategoryId = ctx.query.thirdCategoryId;
+    const categoryId = ctx.query.categoryId;
     const keyword = ctx.query.keyword;
 
-    const products = await ctx.service.web.product.search({ keyword, offset, limit, sort, order, thirdCategoryId });
+    const res = await ctx.service.web.product.search({ keyword, offset, limit, sort, order, categoryId });
+
     ctx.body = {
-      products,
+      ...res,
     };
   }
 }
