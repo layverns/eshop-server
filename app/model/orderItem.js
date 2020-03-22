@@ -10,7 +10,7 @@ module.exports = app => {
         primaryKey: true,
         autoIncrement: true,
       },
-      product: {
+      productId: {
         type: INTEGER,
       },
       image: {

@@ -18,6 +18,7 @@ const ORDER_STATUS = [
 class OrderService extends Service {
   async create({ userId }) {
     const { ctx } = this;
+    const { Sequelize } = ctx.app;
 
     const carts = await ctx.service.web.cart.getList({ userId, isChecked: true });
     if (_.isEmpty(carts)) {
@@ -30,34 +31,40 @@ class OrderService extends Service {
 
     order = order.get({ plain: true });
 
-    let orderItems = carts.map(c => {
-      const {
-        specs,
-        productSpecs,
-        productInfo: { prices, oldPrices },
-      } = c;
-      let price = getInfoOfSpecs(specs, productSpecs, prices);
-      let oldPrice = getInfoOfSpecs(specs, productSpecs, oldPrices);
+    let orderItems = await Promise.all(
+      carts.map(async c => {
+        const {
+          id,
+          specs,
+          quantity,
+          productSpecs,
+          productInfo: { prices, oldPrices },
+          images,
+          title,
+        } = c;
+        let price = getInfoOfSpecs(specs, productSpecs, prices);
+        let oldPrice = getInfoOfSpecs(specs, productSpecs, oldPrices);
 
-      let allSpecs = specs
-        .map((s, index) => {
-          const productSpec = productSpecs[index];
-          const spec = productSpec.filter(ps => ps.id == s)[0];
-          return spec.spec + ':' + spec.title;
-        })
-        .join(' ');
+        let allSpecs = specs
+          .map((s, index) => {
+            const productSpec = productSpecs[index];
+            const spec = productSpec.filter(ps => ps.id == s)[0];
+            return spec.spec + ':' + spec.title;
+          })
+          .join(' ');
 
-      return {
-        productId: c.id,
-        image: c.images[0],
-        title: c.title,
-        specs: allSpecs,
-        price,
-        oldPrice,
-        quantity: c.quantity,
-        orderId: order.id,
-      };
-    });
+        return {
+          productId: id,
+          image: images[0],
+          title: title,
+          specs: allSpecs,
+          price,
+          oldPrice,
+          quantity: quantity,
+          orderId: order.id,
+        };
+      })
+    );
 
     await ctx.model.OrderItem.bulkCreate(orderItems);
     await ctx.service.web.cart.deleteAll({ userId, isChecked: true });
@@ -75,7 +82,7 @@ class OrderService extends Service {
           where: {
             orderId: o.id,
           },
-          attributes: ['id', 'product', 'image', 'price'],
+          attributes: ['id', 'productId', 'image', 'price'],
         });
 
         orderItems = orderItems.map(oi => ({ ...oi, price: Number.parseFloat(oi.price) }));

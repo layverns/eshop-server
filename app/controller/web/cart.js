@@ -56,7 +56,7 @@ class CartController extends Controller {
       throw new ServerError('参数错误!', ERRORS.VALIDATION.CODE);
     }
 
-    await ctx.service.web.cart.update({ quantity }, { productId, specs: JSON.stringify(specs), quantity, userId });
+    await ctx.service.web.cart.update({ quantity }, { productId, specs: JSON.stringify(specs), userId });
 
     ctx.body = {};
   }

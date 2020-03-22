@@ -39,6 +39,8 @@ function getUsers() {
 }
 
 module.exports = {
+  getUsers,
+
   up: (queryInterface, Sequelize) => {
     return queryInterface.bulkInsert('users', getUsers());
   },
