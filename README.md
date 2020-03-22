@@ -1,33 +1,21 @@
-# eshop-server
+## 项目介绍
 
+基于 react 仿[网易严选](https://you.163.com/)桌面端网页应用的相关服务器接口
 
+对应的前端仓库: [https://github.com/layverns/react-eshop](https://github.com/layverns/react-eshop)
 
-## QuickStart
+### 相关技术
 
-<!-- add docs here for user -->
+所用到的技术主要有：eggjs, sequelize, mysql
 
-see [egg docs][egg] for more detail.
+### 开发环境
 
-### Development
+进入项目目录执行：
 
-```bash
-$ npm i
-$ npm run dev
-$ open http://localhost:7001/
-```
+`npm install`
 
-### Deploy
+`npm run dev`
 
-```bash
-$ npm start
-$ npm stop
-```
+### 其他
 
-### npm scripts
-
-- Use `npm run lint` to check code style.
-- Use `npm test` to run unit test.
-- Use `npm run autod` to auto detect dependencies upgrade, see [autod](https://www.npmjs.com/package/autod) for more detail.
-
-
-[egg]: https://eggjs.org
+本项目主要用于学习与交流。
