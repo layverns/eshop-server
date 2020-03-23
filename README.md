@@ -12,6 +12,8 @@
 
 进入项目目录执行：
 
+`npm run init_dev` 初始化数据库，导入测试数据
+
 `npm install`
 
 `npm run dev`
