@@ -6,19 +6,25 @@
 
 ### 相关技术
 
-所用到的技术主要有：eggjs, sequelize, mysql
+所用到的技术主要有：eggjs, sequelize, mysql, jsonwebtoken
 
 开发使用node版本：v12.16.1
 
 mysql版本：8.0.19
 
-### 开发环境
+eggjs版本： 2.15.1
 
-进入项目目录执行：
+### 运行项目
 
-`npm run init_dev` 初始化数据库，导入测试数据
+1.安装mysql客户端。安装时加密方式要选Use Legacy Authentication Method。
+
+2.进入项目目录，修改.env文件用户和密码，修改database/config.json文件中的development用户和密码。
+
+3.执行以下命令：
 
 `npm install`
+
+`npm run init_dev` 初始化数据库，导入测试数据
 
 `npm run dev`
 
